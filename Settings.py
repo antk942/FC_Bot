@@ -4,6 +4,15 @@ import json
 
 
 def init():
+    # Test channels.
+    global serverText
+    serverText = 824706330237075476
+    global testGround
+    testGround = 824436047593209858
+
+    global ffxivannounChann
+    ffxivannounChann = 836525085224730654
+
     global botIcon
     botIcon = "https://cdn.discordapp.com/attachments/826820702480891917/826820786919571456/unknown.png"
 

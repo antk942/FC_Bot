@@ -148,7 +148,7 @@ class Social(commands.Cog):
 
         title = None
         description = author + " cries because of " + arg
-        command = "hug"
+        command = "Cry"
 
         await SendEmbed(ctx, cryLoc, title, description, command)
 

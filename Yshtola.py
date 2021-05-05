@@ -11,13 +11,11 @@ from Social import Social
 
 from Event import Event
 
-from FFXIV_Announcements import FFXIV_Announcements
-
 from Help_Messages import Help_Messages
 
-import Settings
+import FFXIV_Announcements
 
-import Yshtola_Functions
+import Settings
 
 bot = commands.Bot(command_prefix='$')
 bot.remove_command('help')
@@ -28,7 +26,6 @@ bot.add_cog(FFXIV(bot))
 bot.add_cog(Company_Projects(bot))
 bot.add_cog(Social(bot))
 bot.add_cog(Event(bot))
-bot.add_cog(FFXIV_Announcements(bot))
 bot.add_cog(Help_Messages(bot))
 
 # Settings initialization.
@@ -42,12 +39,10 @@ IDsDic = Settings.IDsDic
 
 @bot.event
 async def on_message(message):
-    # FR.
-    returns = Yshtola_Functions.FRCheck(message)
-    if returns[0] is not False:
-        embedFR = returns[1]
-        channel = returns[2]
-        await bot.get_channel(channel).send(embed=embedFR)
+    # Fashion report.
+    await FFXIV_Announcements.FashionReport(bot, message)
+    # Weekly Reset.
+    await FFXIV_Announcements.WeeklyReset(bot, message)
 
     await bot.process_commands(message)
 
