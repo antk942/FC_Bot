@@ -20,6 +20,7 @@ pycparser==2.20
 PyNaCl
 pip
 wheel
+ffmpeg
 pytz==2020.4
 requests==2.25.0
 six==1.15.0

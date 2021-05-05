@@ -17,6 +17,8 @@ import FFXIV_Announcements
 
 import Settings
 
+import ctypes.util
+
 bot = commands.Bot(command_prefix='$')
 bot.remove_command('help')
 
@@ -35,6 +37,21 @@ regEm = Settings.RegEmojDic
 animEm = Settings.AnimatedEmojDic
 
 IDsDic = Settings.IDsDic
+
+
+# region Heroku magic
+print("ctypes - Find opus:")
+a = ctypes.util.find_library('opus')
+print(a)
+
+print("Discord - Load Opus:")
+b = discord.opus.load_opus(a)
+print(b)
+
+print("Discord - Is loaded:")
+c = discord.opus.is_loaded()
+print(c)
+# endregion
 
 
 @bot.event
