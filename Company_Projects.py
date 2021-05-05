@@ -1,5 +1,4 @@
 import json
-import random
 from time import strftime
 
 import discord

@@ -1,3 +1,7 @@
+discord==1.0.1
+requests==2.25.1
+beautifulsoup4==4.9.3
+Pillow==8.1.2
 aiohttp==3.6.3
 appdirs==1.4.4
 async-timeout==3.0.1
@@ -15,14 +19,12 @@ fs==2.4.11
 idna==2.10
 lxml==4.6.2
 multidict==4.7.6
-Pillow==8.0.1
 pycparser==2.20
 PyNaCl
 pip
 wheel
 ffmpeg
 pytz==2020.4
-requests==2.25.0
 six==1.15.0
 unicodedata2==13.0.0.post2
 urllib3==1.26.2
