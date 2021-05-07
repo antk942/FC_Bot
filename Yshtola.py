@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 
+import Discord_prof
 from Discord_prof import Discord_prof
 
 from FFXIV import FFXIV
@@ -60,7 +61,8 @@ async def on_message(message):
     await FFXIV_Announcements.FashionReport(bot, message)
     # Weekly Reset.
     await FFXIV_Announcements.WeeklyReset(bot, message)
-
+    # Json data download.
+    await Discord_prof.GiveData(bot, message)
     await bot.process_commands(message)
 
 

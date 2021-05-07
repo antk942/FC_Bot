@@ -258,6 +258,27 @@ class Discord_prof(commands.Cog):
         # Send the message.
         await ctx.send(embed=GetLdr(chipsPath, title))
 
+    async def GiveData(bot, message):
+        if message.author.mention.replace('!', '') != IDsDic["Kon"]:
+            return
+        if message.content != "profile-data":
+            return
+
+        with open(dailyLovePath) as f:
+            LoveAllowance = json.load(f)
+        with open(lovePath) as f:
+            LovesDic = json.load(f)
+        with open(dailyChipsPath) as f:
+            ChipAllowance = json.load(f)
+        with open(chipsPath) as f:
+            ChipsDic = json.load(f)
+
+        channel = 840208543097159690
+        await bot.get_channel(channel).send("Love allowances:\n" + str(LoveAllowance))
+        await bot.get_channel(channel).send("Loves:\n" + str(LovesDic))
+        await bot.get_channel(channel).send("Chip allowances:\n" + str(ChipAllowance))
+        await bot.get_channel(channel).send("Chips:\n" + str(ChipsDic))
+
 
 def setup(client):
     client.add_cog(Discord_prof(client))
