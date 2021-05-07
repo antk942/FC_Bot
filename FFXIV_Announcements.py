@@ -33,10 +33,10 @@ async def FashionReport(bot, message):
     if "url" in frDict:
         url = frDict["url"]
 
-    # Get the description.
+    """# Get the description.
     description = ""
     if "description" in frDict:
-        description = frDict["description"]
+        description = frDict["description"]"""
 
     # Get the url.
     picture = ""
