@@ -84,8 +84,22 @@ async def WeeklyReset(bot, message):
     await bot.get_channel(channel).send(embed=newEmbd)
 
 
-async def Cackpot():
-    return
+async def Cackpot(bot, message):
+    if message.author.mention.replace('!', '') != IDsDic["Kon"]:
+        return
+
+    if message.content != "WC 1409":
+        return
+
+    channel = Settings.ffxivannounChann
+    title = "**Weekly cackpot reminder**"
+    description = "Making sure you got your weekly tickets."
+    picture = "https://cdn.discordapp.com/attachments/837628182244622337/837628637670146048/Cactpot.png"
+    # Set the embed details.
+    newEmbd = discord.Embed(title=title, description=description, color=Settings.generalColorEMB)
+    # Set the embed url.
+    newEmbd.set_image(url=picture)
+    await bot.get_channel(channel).send(embed=newEmbd)
 
 
 async def Lodestone():
