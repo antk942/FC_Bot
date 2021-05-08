@@ -81,6 +81,13 @@ def GetLdr(path, title):
     return ldrEmbed
 
 
+def GetJsonData(dic, name):
+    ret = name + ":\n"
+    for key in dic:
+        ret += str(key).replace("@", "") + " " + str(dic[key]) + "\n"
+    return ret
+
+
 class Discord_prof(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -274,10 +281,11 @@ class Discord_prof(commands.Cog):
             ChipsDic = json.load(f)
 
         channel = 840208543097159690
-        await bot.get_channel(channel).send("Love allowances:\n" + str(LoveAllowance))
-        await bot.get_channel(channel).send("Loves:\n" + str(LovesDic))
-        await bot.get_channel(channel).send("Chip allowances:\n" + str(ChipAllowance))
-        await bot.get_channel(channel).send("Chips:\n" + str(ChipsDic))
+
+        await bot.get_channel(channel).send(GetJsonData(LoveAllowance, "Love allowance"))
+        await bot.get_channel(channel).send(GetJsonData(LovesDic, "Loves"))
+        await bot.get_channel(channel).send(GetJsonData(ChipAllowance, "Chip allowance"))
+        await bot.get_channel(channel).send(GetJsonData(ChipsDic, "Chips"))
 
 
 def setup(client):
