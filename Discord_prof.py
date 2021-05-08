@@ -31,6 +31,23 @@ with open(chipsPath) as f:
     ChipsDic = json.load(f)
 
 
+def Commands():
+    commList = ["love",
+                "dailychips",
+                "givechips",
+                "profile",
+                "loveldr",
+                "chipldr"]
+    commsExplanation = ["Give a love to someone.",
+                        "Get your daily chips.",
+                        "Give chips to someone.",
+                        "Check out your profile information.",
+                        "See who has the most love.",
+                        "See who has the most chips."]
+
+    return commList, commsExplanation
+
+
 def JsonUpdate(jsonName, dicName):
     with open(jsonName, 'w') as file:
         for key in dicName:

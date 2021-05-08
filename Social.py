@@ -23,6 +23,26 @@ angryLoc = "Jsons_Social/Angry.json"
 # endregion
 
 
+def Commands():
+    commList = ["hug",
+                "kiss",
+                "pat",
+                "lick",
+                "poke",
+                "bite",
+                "cry",
+                "clap",
+                "angry"]
+    commsExplanation = ["Give a love to someone.",
+                        "Get your daily chips.",
+                        "Give chips to someone.",
+                        "Check out your profile information.",
+                        "See who has the most love.",
+                        "See who has the most chips."]
+
+    return commList, commsExplanation
+
+
 async def SendEmbed(ctx, dicLoc, title, description, command):
     # Set the embed details.
     embed = discord.Embed(title=title, description=description, color=Settings.generalColorEMB)

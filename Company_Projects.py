@@ -21,6 +21,23 @@ with open(recipeItemsPath) as f:
     RecipeItemsDic = json.load(f)
 
 
+def Commands():
+    commList = ["addrecipe",
+                "clearrecipe",
+                "additem",
+                "removeitem",
+                "showrecipes",
+                "showrecipe"]
+    commsExplanation = ["Give a love to someone.",
+                        "Get your daily chips.",
+                        "Give chips to someone.",
+                        "Check out your profile information.",
+                        "See who has the most love.",
+                        "See who has the most chips."]
+
+    return commList, commsExplanation
+
+
 class Company_Projects(commands.Cog):
     def __init__(self, client):
         self.client = client

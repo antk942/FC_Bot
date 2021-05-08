@@ -16,6 +16,21 @@ ffxivRegEm = Settings.RegEmojDic
 ffxivAnimEm = Settings.AnimatedEmojDic
 
 
+def Commands():
+    commList = ["iam",
+                "whoami",
+                "mylogs",
+                "logs"]
+    commsExplanation = ["Give a love to someone.",
+                        "Get your daily chips.",
+                        "Give chips to someone.",
+                        "Check out your profile information.",
+                        "See who has the most love.",
+                        "See who has the most chips."]
+
+    return commList, commsExplanation
+
+
 async def sendEmbedMessageFile(ctx, title, description, filepath, filename):
     embed = discord.Embed(title=title, description=description, color=Settings.generalColorEMB)
     if filepath is not None and filename is not None:
