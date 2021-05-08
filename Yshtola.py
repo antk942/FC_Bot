@@ -65,7 +65,7 @@ async def on_message(message):
     await FFXIV_Announcements.Cackpot(bot, message)
     # Json data download.
     await Discord_prof.GiveData(bot, message)
-    
+
     await bot.process_commands(message)
 
 

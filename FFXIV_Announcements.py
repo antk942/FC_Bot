@@ -99,6 +99,8 @@ async def Cackpot(bot, message):
     newEmbd = discord.Embed(title=title, description=description, color=Settings.generalColorEMB)
     # Set the embed url.
     newEmbd.set_image(url=picture)
+    # Set the bot icon.
+    newEmbd.set_thumbnail(url=Settings.botIcon)
     await bot.get_channel(channel).send(embed=newEmbd)
 
 
