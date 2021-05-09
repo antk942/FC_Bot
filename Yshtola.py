@@ -89,18 +89,12 @@ async def sendTempEMB(ctx):
         return
 
     channel = 836525085224730654
-    title = "*Weekly reset happened.*"
+    title = "*Mother's day special.*"
     url = "https://cdn.discordapp.com/attachments/837628182244622337/839100220100968468/panda.png"
-    description = "What reset?\n" \
-                  "Tomestone cap.\n" \
-                  "Alliance raid.\n" \
-                  "Challenge log.\n" \
-                  "Masked carnival.\n" \
-                  "Wonderous tails.\n" \
-                  "Custom deliveries.\n" \
-                  "Squadron priority mission."
+    description = "As a mother of our lovely FC, Kon will give everyone a special apple juice with a chicken for dinner.\n" \
+                  "If you want stop by the entrance " + regEm["g_love"]
 
-    picture = "https://cdn.discordapp.com/attachments/826820702480891917/826820786919571456/unknown.png"
+    picture = "https://cdn.discordapp.com/attachments/837628182244622337/840896937486057502/Screenshot_83.png"
 
     # Set the embed details.
     newEmbd = discord.Embed(title=title, url=url, description=description, color=Settings.generalColorEMB)
@@ -109,8 +103,9 @@ async def sendTempEMB(ctx):
     # Set the bot icon.
     # newEmbd.set_thumbnail(url=Settings.botIcon)
     # Set footer text.
-    newEmbd.set_footer(text="Click the title link.")
+    #newEmbd.set_footer(text="Click the title link.")
 
+    await bot.get_channel(channel).send("@everyone")
     await bot.get_channel(channel).send(embed=newEmbd)
 
 

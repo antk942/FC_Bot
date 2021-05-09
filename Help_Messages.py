@@ -18,7 +18,7 @@ Settings.init()
 IDsDic = Settings.IDsDic
 
 
-def SetEmbedCommands(emb, comm, commsList):
+def AddFieldsToHelp(emb, comm, commsList):
     emptyVal = "\u200b"
     numOfComms = len(commsList)
 
@@ -83,12 +83,12 @@ class Help_Messages(commands.Cog):
         embed = discord.Embed(title="**Commands**",
                               description="See all the commands here:",
                               color=Settings.generalColorEMB)
-        embed.set_thumbnail(url=Settings.botIcon)
+        # embed.set_thumbnail(url=Settings.botIcon)
         # Add all the fields.
-        embed = SetEmbedCommands(embed, "Profile", Discord_prof.Commands()[0])
-        embed = SetEmbedCommands(embed, "Company projects", Company_Projects.Commands()[0])
-        embed = SetEmbedCommands(embed, "FFXIV", FFXIV.Commands()[0])
-        embed = SetEmbedCommands(embed, "Social", Social.Commands()[0])
+        embed = AddFieldsToHelp(embed, "Profile", Discord_prof.Commands()[0])
+        embed = AddFieldsToHelp(embed, "Company projects", Company_Projects.Commands()[0])
+        embed = AddFieldsToHelp(embed, "FFXIV", FFXIV.Commands()[0])
+        embed = AddFieldsToHelp(embed, "Social", Social.Commands()[0])
 
         await ctx.send(embed=embed)
 

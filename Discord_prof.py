@@ -101,7 +101,7 @@ def GetLdr(path, title):
 def GetJsonData(dic, name):
     ret = name + ":\n"
     for key in dic:
-        ret += str(key).replace("@", "") + " " + str(dic[key]) + "\n"
+        ret += '"' + str(key).replace("@", "") + '":' + str(dic[key]) + ",\n"
     return ret
 
 
