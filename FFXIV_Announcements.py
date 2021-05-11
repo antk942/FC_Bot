@@ -10,6 +10,60 @@ Settings.init()
 IDsDic = Settings.IDsDic
 
 
+def MakeEmbedOutOfMessage(message):
+    diction = message.embeds[0].to_dict()
+    print(diction)
+
+    # Get the title.
+    if "title" in diction:
+        title = diction["title"]
+
+    # Get the url.
+    url = ""
+    if "url" in diction:
+        url = diction["url"]
+
+    # Get the description.
+    if "description" in diction:
+        description = diction["description"]
+
+    # Get the url picture.
+    picture = ""
+    if "image" in diction:
+        if "url" in diction["image"]:
+            picture = diction["image"]["url"]
+
+    # Set the embed details.
+    newEmbd = discord.Embed(title=title, url=url, description=description, color=Settings.generalColorEMB)
+
+    # Add fields.
+    if "fields" in diction:
+        for i in range(0, len(diction["fields"])):
+            newEmbd.add_field(name=diction["fields"][i]["name"], value=diction["fields"][i]["value"], inline=False)
+
+    # If a picture is found.
+    if picture:
+        # Set the embed url.
+        newEmbd.set_image(url=picture)
+
+    return newEmbd
+
+
+async def Ffxiv_Lodestone(bot, message):
+    # Announcement channels.
+    annouFC = Settings.ffxivannounChann
+    annouYD = 840517071079079966
+
+    # Check if the message is an embed and in the correct channel.
+    if message.channel.id != annouYD or len(message.embeds) == 0:
+        return
+
+    # Make the embed.
+    newEmbd = MakeEmbedOutOfMessage(message)
+
+    await bot.get_channel(annouFC).send(embed=newEmbd)
+
+
 async def FashionReport(bot, message):
     # Fashion channels.
     frChannelFC = 835872021057372210
@@ -33,12 +87,10 @@ async def FashionReport(bot, message):
     if "url" in frDict:
         url = frDict["url"]
 
-    """# Get the description.
-    description = ""
-    if "description" in frDict:
-        description = frDict["description"]"""
+    # Get the description.
+    description = "\u200b"
 
-    # Get the url.
+    # Get the url picture.
     picture = ""
     if "image" in frDict:
         if "url" in frDict["image"]:
@@ -46,6 +98,7 @@ async def FashionReport(bot, message):
 
     # Set the embed details.
     newEmbd = discord.Embed(title=title, url=url, description=description, color=Settings.generalColorEMB)
+
     if picture:
         # Set the embed url.
         newEmbd.set_image(url=picture)

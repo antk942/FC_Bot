@@ -63,6 +63,8 @@ async def on_message(message):
     await FFXIV_Announcements.WeeklyReset(bot, message)
     # Weekly cackpot.
     await FFXIV_Announcements.Cackpot(bot, message)
+    # Ffxiv lodestone announcements.
+    await FFXIV_Announcements.Ffxiv_Lodestone(bot, message)
     # Json data download.
     await Discord_prof.GiveData(bot, message)
 
