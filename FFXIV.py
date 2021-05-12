@@ -42,8 +42,8 @@ async def sendEmbedMessageFile(ctx, title, description, filepath, filename):
 
 
 class FFXIV(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.command()
     async def iam(self, ctx, arg1=None, arg2=None, arg3=None):  # arg1 = name, arg2 = surname, arg3 = world.
@@ -93,7 +93,6 @@ class FFXIV(commands.Cog):
         whoamipic.save("result.png")
         await sendEmbedMessageFile(ctx, None, "", "result.png", "result.png")
 
-
     @commands.command()
     async def mylogs(self, ctx, arg=None):
         if arg is not None:
@@ -133,5 +132,5 @@ class FFXIV(commands.Cog):
         await ctx.send(embed=embed)
 
 
-def setup(client):
-    client.add_cog(FFXIV(client))
+def setup(bot):
+    bot.add_cog(FFXIV(bot))

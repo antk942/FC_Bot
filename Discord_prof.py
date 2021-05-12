@@ -106,8 +106,8 @@ def GetJsonData(dic, name):
 
 
 class Discord_prof(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.command()
     async def love(self, ctx, arg=None):
@@ -305,5 +305,5 @@ class Discord_prof(commands.Cog):
         await bot.get_channel(channel).send(GetJsonData(ChipsDic, "Chips"))
 
 
-def setup(client):
-    client.add_cog(Discord_prof(client))
+def setup(bot):
+    bot.add_cog(Discord_prof(bot))

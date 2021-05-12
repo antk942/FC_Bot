@@ -63,8 +63,8 @@ async def SendEmbed(ctx, dicLoc, title, description, command):
 
 
 class Social(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.command()
     async def temp(self, ctx):
@@ -196,5 +196,5 @@ class Social(commands.Cog):
     # endregion
 
 
-def setup(client):
-    client.add_cog(Social(client))
+def setup(bot):
+    bot.add_cog(Social(bot))

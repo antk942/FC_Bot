@@ -53,8 +53,8 @@ def AddFieldsToHelp(emb, comm, commsList):
 
 
 class Help_Messages(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.command()
     async def help_message_compProjects(self, ctx):
@@ -93,5 +93,5 @@ class Help_Messages(commands.Cog):
         await ctx.send(embed=embed)
 
 
-def setup(client):
-    client.add_cog(Help_Messages(client))
+def setup(bot):
+    bot.add_cog(Help_Messages(bot))

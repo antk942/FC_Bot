@@ -103,7 +103,7 @@ async def FashionReport(bot, message):
         # Set the embed url.
         newEmbd.set_image(url=picture)
 
-    await bot.get_channel(frChannelFC).send(embed=newEmbd)
+    await bot.get_channel(frChannelFC).send(content="@GoldenSaucer", embed=newEmbd)
 
 
 async def WeeklyReset(bot, message):
@@ -154,7 +154,7 @@ async def Cackpot(bot, message):
     newEmbd.set_image(url=picture)
     # Set the bot icon.
     newEmbd.set_thumbnail(url=Settings.botIcon)
-    await bot.get_channel(channel).send(embed=newEmbd)
+    await bot.get_channel(channel).send(content="@GoldenSaucer", embed=newEmbd)
 
 
 async def Lodestone():

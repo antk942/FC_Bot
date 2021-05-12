@@ -17,8 +17,8 @@ def SendEmbedToUser(title):
 
 
 class Event(commands.Cog):
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.client = bot
 
     @commands.command()
     async def createevent(self, ctx):
@@ -26,5 +26,5 @@ class Event(commands.Cog):
         await ctx.send(embed=SendEmbedToUser("Hello"))
 
 
-def setup(client):
-    client.add_cog(Event(client))
+def setup(bot):
+    bot.add_cog(Event(bot))

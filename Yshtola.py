@@ -12,6 +12,8 @@ from Social import Social
 
 from Event import Event
 
+from Reaction_Role import Reaction_Role
+
 from Help_Messages import Help_Messages
 
 import FFXIV_Announcements
@@ -29,6 +31,7 @@ bot.add_cog(FFXIV(bot))
 bot.add_cog(Company_Projects(bot))
 bot.add_cog(Social(bot))
 bot.add_cog(Event(bot))
+bot.add_cog(Reaction_Role(bot))
 bot.add_cog(Help_Messages(bot))
 
 # Settings initialization.
