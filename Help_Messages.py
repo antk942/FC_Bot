@@ -32,7 +32,7 @@ def AddFieldsToHelp(emb, comm, commsList):
 
     for i in range(0, 3):  # For every desc.
         for j in range(0, indivlines):  # For the amount of lines we need.
-            descs["desc" + str(i)] += commsList[j*3 + i] + "\n"
+            descs["desc" + str(i)] += commsList[j * 3 + i] + "\n"
 
     for i in range(0, extralines):  # For any extra line needed.
         descs["desc" + str(i)] += commsList[(numOfComms - extralines)]
@@ -57,40 +57,63 @@ class Help_Messages(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def help_message_compProjects(self, ctx):
-        await ctx.message.delete()
-        if ctx.author.mention.replace('!', '') != IDsDic["Kon"]:
+    async def help(self, ctx, *arg):
+        categories = {
+            "Profile": [Discord_prof.Commands()[0],
+                        Discord_prof.Commands()[1]],
+            "Company projects": [Company_Projects.Commands()[0],
+                                 Company_Projects.Commands()[1]],
+            "FFXIV": [FFXIV.Commands()[0],
+                      FFXIV.Commands()[1]],
+            "Social": [Social.Commands()[0],
+                       Social.Commands()[1]]
+        }
+
+        # Take the arg into a str.
+        givenArg = ' '.join(arg)
+
+        if not givenArg:
+            embed = discord.Embed(title="**Commands**",
+                                  description="See all the commands here:",
+                                  color=Settings.generalColorEMB)
+
+            # Add all the fields.
+            for key in categories:
+                embed = AddFieldsToHelp(embed, key, categories[key][0])
+
+            embed.set_footer(text="For more information on a command try $help <command name>,\n "
+                                  "or on a category <category name>",
+                             icon_url=Settings.botIcon)
+
+            await ctx.send(embed=embed)
             return
-        embed = discord.Embed(title="Company Projects help commands",
-                              description="This is a list of the commands you can use.",
-                              color=Settings.generalColorEMB)
-        embed.set_thumbnail(url=Settings.botIcon)
-        embed.add_field(name="addrecipe  <Recipe name>", value="Add a recipe to the files it returns a codename.",
-                        inline=False)
-        embed.add_field(name="clearrecipe <Code name/all>",
-                        value="Remove a recipe from the files, or if you type all it will remove all recipes.",
-                        inline=False)
-        embed.add_field(name="additem <Code name + item>", value="Add an item to the specific recipe.",
-                        inline=False)
-        embed.add_field(name="removeitem <Code name + item>", value="Remove an item from the specific recipe",
-                        inline=False)
-        embed.add_field(name="showrecipes", value="Shows all the recipes in the files.", inline=False)
-        embed.add_field(name="showrecipe <Code name>", value="Shows a specific recipe and it's items", inline=False)
-        await ctx.send(embed=embed)
 
-    @commands.command()
-    async def help(self, ctx, arg=None):
-        embed = discord.Embed(title="**Commands**",
-                              description="See all the commands here:",
-                              color=Settings.generalColorEMB)
-        # embed.set_thumbnail(url=Settings.botIcon)
-        # Add all the fields.
-        embed = AddFieldsToHelp(embed, "Profile", Discord_prof.Commands()[0])
-        embed = AddFieldsToHelp(embed, "Company projects", Company_Projects.Commands()[0])
-        embed = AddFieldsToHelp(embed, "FFXIV", FFXIV.Commands()[0])
-        embed = AddFieldsToHelp(embed, "Social", Social.Commands()[0])
+        # Send an explanation for a category.
+        if givenArg in categories:
+            embed = discord.Embed(title="**" + givenArg + " commands**",
+                                  description=ctx.author.mention,
+                                  color=Settings.generalColorEMB)
+            # Add the field.
+            explanations = categories[givenArg][1]
+            for key in explanations:
+                embed.add_field(name=key, value=explanations[key][0], inline=False)
+            await ctx.send(embed=embed)
+            return
 
-        await ctx.send(embed=embed)
+        # Send information on how to use a command.
+        for key in categories:
+            for commKey in categories[key][1]:
+                if commKey == givenArg:
+                    embed = discord.Embed(title="**" + givenArg + " explanation**",
+                                          description=ctx.author.mention,
+                                          color=Settings.generalColorEMB)
+                    embed.add_field(name=categories[key][1][commKey][0],
+                                    value=categories[key][1][commKey][1],
+                                    inline=False)
+                    await ctx.send(embed=embed)
+                    return
+
+        await ctx.send(ctx.author.mention + " the argument you provided is not valid. Make sure you typed correctly.")
 
 
 def setup(bot):

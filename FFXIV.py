@@ -21,12 +21,17 @@ def Commands():
                 "whoami",
                 "mylogs",
                 "logs"]
-    commsExplanation = ["Give a love to someone.",
-                        "Get your daily chips.",
-                        "Give chips to someone.",
-                        "Check out your profile information.",
-                        "See who has the most love.",
-                        "See who has the most chips."]
+
+    commsExplanation = {
+        "iam": ["Add your character.",
+                "$iam <name + surname + world>"],
+        "whoami": ["Check your character details.",
+                   "$whoami"],
+        "mylogs": ["Check your logs.",
+                   "$mylogs"],
+        "logs": ["Check someones logs.",
+                 "$logs <name + surname + world>"]
+    }
 
     return commList, commsExplanation
 

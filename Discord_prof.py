@@ -32,18 +32,29 @@ with open(chipsPath) as f:
 
 
 def Commands():
-    commList = ["love",
-                "dailychips",
-                "givechips",
-                "profile",
-                "loveldr",
-                "chipldr"]
-    commsExplanation = ["Give a love to someone.",
-                        "Get your daily chips.",
-                        "Give chips to someone.",
-                        "Check out your profile information.",
-                        "See who has the most love.",
-                        "See who has the most chips."]
+    commList = [
+        "love",
+        "dailychips",
+        "givechips",
+        "profile",
+        "loveldr",
+        "chipldr"
+    ]
+
+    commsExplanation = {
+        "love": ["Give a love to someone.",
+                 "$love <@target> / not a bot or a role"],
+        "dailychips": ["Get your daily chips.",
+                       "$dailychips"],
+        "givechips": ["Give chips to someone.",
+                      "$givechips <@target + amount> / not a bot or a role"],
+        "profile": ["Check out your profile information.",
+                    "$profile"],
+        "loveldr": ["See who has the most love.",
+                    "$loveldr"],
+        "chipldr": ["See who has the most chips.",
+                    "$chipldr"]
+    }
 
     return commList, commsExplanation
 
@@ -142,7 +153,10 @@ class Discord_prof(commands.Cog):
             file.write(json.dumps(LovesDic, sort_keys=True, indent=4, separators=(',', ': ')))
 
         # Send the message that the author gave love to the user mentioned.
-        await ctx.send(ctx.author.mention + " gives a love to " + user.mention + " " + regEmoj["g_love"])
+        mes = ctx.author.mention + " gives a love to " + user.mention + " " + regEmoj["g_love"]
+        await ctx.send(mes)
+        await self.bot.get_channel(842355951738683422).send(GetJsonData(LovesDic, "Loves"))
+        await self.bot.get_channel(842355951738683422).send(mes)
 
     @commands.command()
     async def dailychips(self, ctx, arg=None):

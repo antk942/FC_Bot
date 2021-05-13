@@ -12,8 +12,8 @@ IDsDic = Settings.IDsDic
 
 def MakeEmbedOutOfMessage(message):
     diction = message.embeds[0].to_dict()
-    print(diction)
 
+    title = ""
     # Get the title.
     if "title" in diction:
         title = diction["title"]
@@ -23,6 +23,7 @@ def MakeEmbedOutOfMessage(message):
     if "url" in diction:
         url = diction["url"]
 
+    description = ""
     # Get the description.
     if "description" in diction:
         description = diction["description"]

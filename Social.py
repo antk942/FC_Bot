@@ -20,25 +20,44 @@ biteLoc = "Jsons_Social/Bite.json"
 cryLoc = "Jsons_Social/Cry.json"
 clapLoc = "Jsons_Social/Clap.json"
 angryLoc = "Jsons_Social/Angry.json"
+
+
 # endregion
 
 
 def Commands():
-    commList = ["hug",
-                "kiss",
-                "pat",
-                "lick",
-                "poke",
-                "bite",
-                "cry",
-                "clap",
-                "angry"]
-    commsExplanation = ["Give a love to someone.",
-                        "Get your daily chips.",
-                        "Give chips to someone.",
-                        "Check out your profile information.",
-                        "See who has the most love.",
-                        "See who has the most chips."]
+    commList = [
+        "hug",
+        "kiss",
+        "pat",
+        "lick",
+        "poke",
+        "bite",
+        "cry",
+        "clap",
+        "angry"
+    ]
+
+    commsExplanation = {
+        "hug": ["Hug someone.",
+                "$hug <@target>"],
+        "kiss": ["Kiss someone.",
+                 "$kiss <@target>"],
+        "pat": ["Pat someone.",
+                "$pat <@target>"],
+        "lick": ["Lick someone.",
+                 "$lick <@target>"],
+        "poke": ["Poke someone.",
+                 "$poke <@target>"],
+        "bite": ["Bite someone.",
+                 "$bite <@target>"],
+        "cry": ["Cry because of someone.",
+                "$cry <@target>"],
+        "clap": ["Clap for someone.",
+                 "$clap <@target>"],
+        "angry": ["Be angry at someone.",
+                  "$angry <@target>"]
+    }
 
     return commList, commsExplanation
 

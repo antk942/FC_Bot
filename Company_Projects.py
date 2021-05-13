@@ -22,18 +22,29 @@ with open(recipeItemsPath) as f:
 
 
 def Commands():
-    commList = ["addrecipe",
-                "clearrecipe",
-                "additem",
-                "removeitem",
-                "showrecipes",
-                "showrecipe"]
-    commsExplanation = ["Give a love to someone.",
-                        "Get your daily chips.",
-                        "Give chips to someone.",
-                        "Check out your profile information.",
-                        "See who has the most love.",
-                        "See who has the most chips."]
+    commList = [
+        "addrecipe",
+        "clearrecipe",
+        "additem",
+        "removeitem",
+        "showrecipes",
+        "showrecipe"
+    ]
+
+    commsExplanation = {
+        "addrecipe": ["Add a recipe to the archives under a codename.",
+                      "$addrecipe <recipe_name> / returns a codename for this recipe"],
+        "clearrecipe": ["Delete a specific recipe from the archives, add all to delete all recipes.",
+                        "$clearrecipe <codename> or <all>"],
+        "additem": ["Add an amount of items to a specific recipe.",
+                    "$additem <codename + times + item>"],
+        "removeitem": ["Remove an amount of items from a specific recipe.",
+                       "$removeitem <codename + times + item>"],
+        "showrecipes": ["Show all the recipes with their codenames.",
+                        "$showrecipes"],
+        "showrecipe": ["Show a specific recipe with its' items.",
+                       "$showrecipe <codename>"]
+    }
 
     return commList, commsExplanation
 
