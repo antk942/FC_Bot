@@ -104,7 +104,7 @@ async def FashionReport(bot, message):
         # Set the embed url.
         newEmbd.set_image(url=picture)
 
-    await bot.get_channel(frChannelFC).send(content="@GoldenSaucer", embed=newEmbd)
+    await bot.get_channel(frChannelFC).send(content="<@&841948309971402802>", embed=newEmbd)
 
 
 async def WeeklyReset(bot, message):

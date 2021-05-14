@@ -88,8 +88,11 @@ async def megalazer(ctx):
 @bot.command()
 async def sendTempEMB(ctx):
     await ctx.message.delete()
-    
-    # Check the author.
+    channel = bot.get_channel(835872021057372210)
+    msg_id = 842679110634438677
+    msg = await channel.fetch_message(msg_id)
+    await msg.edit(content="<@&841948309971402802>")
+    """# Check the author.
     if Settings.ChangeAuthorID(ctx) != IDsDic["Kon"]:
         return
 
@@ -110,8 +113,8 @@ async def sendTempEMB(ctx):
     # Set footer text.
     #newEmbd.set_footer(text="Click the title link.")
 
-    await bot.get_channel(channel).send("@everyone")
-    await bot.get_channel(channel).send(embed=newEmbd)
+    await bot.get_channel(824706330237075476).send("<@&841948309971402802>")
+    #await bot.get_channel(channel).send(embed=newEmbd)"""
 
 
 @bot.event
