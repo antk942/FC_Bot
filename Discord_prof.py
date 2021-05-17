@@ -19,17 +19,6 @@ lovePath = "Jsons_Profiles/Loves.json"
 dailyChipsPath = "Jsons_Profiles/Daily_Chips.json"
 chipsPath = "Jsons_Profiles/Chips.json"
 
-# Open files.
-# TODO: Check if jsons are empty and if yes add the {} so they wont break.
-with open(dailyLovePath) as f:
-    LoveAllowance = json.load(f)
-with open(lovePath) as f:
-    LovesDic = json.load(f)
-with open(dailyChipsPath) as f:
-    ChipAllowance = json.load(f)
-with open(chipsPath) as f:
-    ChipsDic = json.load(f)
-
 
 def Commands():
     commList = [
@@ -64,6 +53,8 @@ def JsonUpdate(jsonName, dicName):
         for key in dicName:
             dicName.update({key: 0})
         file.write(json.dumps(dicName, sort_keys=True, indent=4, separators=(',', ': ')))
+
+    file.close()
 
 
 async def IsARGValid(ctx, arg, commandName):
@@ -106,6 +97,8 @@ def GetLdr(path, title):
                              description=desc,
                              color=Settings.generalColorEMB)
 
+    file.close()
+
     return ldrEmbed
 
 
@@ -131,6 +124,9 @@ class Discord_prof(commands.Cog):
         # Change the author id.
         author = Settings.ChangeAuthorID(ctx)
 
+        with open(dailyLovePath) as dailyLoveFile:
+            LoveAllowance = json.load(dailyLoveFile)
+
         # Add the author to the allowance json.
         Settings.CheckNameInJson(author, profJsonPath, LoveAllowance, "Daily_Love", 0)
 
@@ -138,6 +134,7 @@ class Discord_prof(commands.Cog):
             with open(dailyLovePath, 'w') as file:
                 LoveAllowance[author] = 1
                 file.write(json.dumps(LoveAllowance, sort_keys=True, indent=4, separators=(',', ': ')))
+            file.close()
         else:
             # Return an error message that the author already gave a love today.
             await ctx.send(embed=Settings.OnErrorMessage('love', 3))
@@ -146,17 +143,26 @@ class Discord_prof(commands.Cog):
         # Replace the ! to the user mentioned.
         userMentioned = user.mention.replace('!', '')
 
+        with open(lovePath) as loveFile:
+            LovesDic = json.load(loveFile)
+
         # Add the user mentioned to the loves json.
         Settings.CheckNameInJson(userMentioned, profJsonPath, LovesDic, "Loves", 0)
         with open(lovePath, 'w') as file:
             LovesDic[userMentioned] += 1
             file.write(json.dumps(LovesDic, sort_keys=True, indent=4, separators=(',', ': ')))
+        file.close()
 
         # Send the message that the author gave love to the user mentioned.
         mes = ctx.author.mention + " gives a love to " + user.mention + " " + regEmoj["g_love"]
         await ctx.send(mes)
+        dailyLoveFile.close()
+        loveFile.close()
+        # test
         await self.bot.get_channel(842355951738683422).send(GetJsonData(LovesDic, "Loves"))
         await self.bot.get_channel(842355951738683422).send(mes)
+
+
 
     @commands.command()
     async def dailychips(self, ctx, arg=None):
@@ -168,6 +174,9 @@ class Discord_prof(commands.Cog):
         # Change the author id.
         author = Settings.ChangeAuthorID(ctx)
 
+        with open(dailyChipsPath) as dailyChipFile:
+            ChipAllowance = json.load(dailyChipFile)
+
         # Add the author to the allowance json.
         Settings.CheckNameInJson(author, profJsonPath, ChipAllowance, "Daily_Chips", 0)
 
@@ -176,9 +185,13 @@ class Discord_prof(commands.Cog):
             with open(dailyChipsPath, 'w') as file:
                 ChipAllowance[author] = 1
                 file.write(json.dumps(ChipAllowance, sort_keys=True, indent=4, separators=(',', ': ')))
+            file.close()
         else:
             await ctx.send(embed=Settings.OnErrorMessage('dailychips', 3))
             return
+
+        with open(chipsPath) as chipFile:
+            ChipsDic = json.load(chipFile)
 
         # Add the author to the chips json.
         Settings.CheckNameInJson(author, profJsonPath, ChipsDic, "Chips", 0)
@@ -187,9 +200,13 @@ class Discord_prof(commands.Cog):
             # Add the chips to the author.
             ChipsDic[author] += chips
             file.write(json.dumps(ChipsDic, sort_keys=True, indent=4, separators=(',', ': ')))
+        file.close()
 
         # Send the message that the author got their chips.
         await ctx.send(ctx.author.mention + " you get " + str(chips) + " chips.")
+
+        dailyChipFile.close()
+        chipFile.close()
 
     @commands.command()
     async def givechips(self, ctx, arg1=None, arg2=None):
@@ -211,6 +228,9 @@ class Discord_prof(commands.Cog):
         # Change the arg.
         user = await Settings.ChangeArgToUser(ctx, arg1)
 
+        with open(chipsPath) as chipFile:
+            ChipsDic = json.load(chipFile)
+
         if author not in ChipsDic:
             errorEmbed = discord.Embed(title="Y'shtola found an issue.",
                                        description="You can't give any chips since you don't have any.",
@@ -226,7 +246,7 @@ class Discord_prof(commands.Cog):
                 ChipsDic[author] -= int(arg2)
                 ChipsDic[user.mention.replace('!', '')] += int(arg2)
                 file.write(json.dumps(ChipsDic, sort_keys=True, indent=4, separators=(',', ': ')))
-
+            file.close()
         # Send an error message that you don't have the amount of chips to give.
         else:
             errorEmbed = discord.Embed(title="Y'shtola found an issue.",
@@ -239,6 +259,8 @@ class Discord_prof(commands.Cog):
 
         # Send the message that the author gave chips to the user mentioned.
         await ctx.send(ctx.author.mention + " gives " + arg2 + " chips to " + user.mention)
+
+        chipFile.close()
 
     @commands.command()
     async def profile(self, ctx, arg=None):
@@ -253,11 +275,15 @@ class Discord_prof(commands.Cog):
         embed.add_field(name="Joined on:", value=ctx.author.joined_at.strftime("%b %d, %Y"), inline=False)
         embed.add_field(name="Created on:", value=ctx.author.created_at.strftime("%b %d, %Y"), inline=False)
 
+        with open(lovePath) as loveFile:
+            LovesDic = json.load(loveFile)
         loves = 0
         if author in LovesDic:
             loves = LovesDic[author]
         embed.add_field(name="Love:", value=loves, inline=False)
 
+        with open(chipsPath) as chipFile:
+            ChipsDic = json.load(chipFile)
         chips = 0
         if author in ChipsDic:
             chips = ChipsDic[author]
@@ -267,6 +293,9 @@ class Discord_prof(commands.Cog):
 
         await ctx.send(embed=embed)
 
+        loveFile.close()
+        chipFile.close()
+
     @commands.command()
     async def refreshDaily(self, ctx):
         # Change the author id.
@@ -275,10 +304,18 @@ class Discord_prof(commands.Cog):
         if author != IDsDic["Kon"]:
             await ctx.message.delete()
             return
+
+        with open(dailyLovePath) as dailyLoveFile:
+            LoveAllowance = json.load(dailyLoveFile)
         JsonUpdate(dailyLovePath, LoveAllowance)
+        with open(dailyChipsPath) as dailyChipFile:
+            ChipAllowance = json.load(dailyChipFile)
         JsonUpdate(dailyChipsPath, ChipAllowance)
 
         await ctx.message.delete()
+
+        dailyLoveFile.close()
+        dailyChipFile.close()
 
     @commands.command()
     async def loveldr(self, ctx):
@@ -302,14 +339,14 @@ class Discord_prof(commands.Cog):
         if message.content != "profile-data":
             return
 
-        with open(dailyLovePath) as f:
-            LoveAllowance = json.load(f)
-        with open(lovePath) as f:
-            LovesDic = json.load(f)
-        with open(dailyChipsPath) as f:
-            ChipAllowance = json.load(f)
-        with open(chipsPath) as f:
-            ChipsDic = json.load(f)
+        with open(dailyLovePath) as dailyLoveFile:
+            LoveAllowance = json.load(dailyLoveFile)
+        with open(lovePath) as loveFile:
+            LovesDic = json.load(loveFile)
+        with open(dailyChipsPath) as dailyChipFile:
+            ChipAllowance = json.load(dailyChipFile)
+        with open(chipsPath) as chipFile:
+            ChipsDic = json.load(chipFile)
 
         channel = 840208543097159690
 
@@ -317,6 +354,11 @@ class Discord_prof(commands.Cog):
         await bot.get_channel(channel).send(GetJsonData(LovesDic, "Loves"))
         await bot.get_channel(channel).send(GetJsonData(ChipAllowance, "Chip allowance"))
         await bot.get_channel(channel).send(GetJsonData(ChipsDic, "Chips"))
+
+        dailyLoveFile.close()
+        loveFile.close()
+        dailyChipFile.close()
+        chipFile.close()
 
 
 def setup(bot):

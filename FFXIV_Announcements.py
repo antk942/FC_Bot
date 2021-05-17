@@ -155,7 +155,7 @@ async def Cackpot(bot, message):
     newEmbd.set_image(url=picture)
     # Set the bot icon.
     newEmbd.set_thumbnail(url=Settings.botIcon)
-    await bot.get_channel(channel).send(content="@GoldenSaucer", embed=newEmbd)
+    await bot.get_channel(channel).send(content="<@&841948309971402802>", embed=newEmbd)
 
 
 async def Lodestone():
