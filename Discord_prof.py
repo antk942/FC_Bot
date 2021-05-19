@@ -146,6 +146,7 @@ class Discord_prof(commands.Cog):
         with open(lovePath) as loveFile:
             LovesDic = json.load(loveFile)
 
+        lovesOfMentioned = LovesDic[userMentioned] + 1
         # Add the user mentioned to the loves json.
         Settings.CheckNameInJson(userMentioned, profJsonPath, LovesDic, "Loves", 0)
         with open(lovePath, 'w') as file:
@@ -158,11 +159,15 @@ class Discord_prof(commands.Cog):
         await ctx.send(mes)
         dailyLoveFile.close()
         loveFile.close()
+
         # test
-        await self.bot.get_channel(842355951738683422).send(GetJsonData(LovesDic, "Loves"))
-        await self.bot.get_channel(842355951738683422).send(mes)
-
-
+        with open(lovePath) as loveFile:
+            LovesDic = json.load(loveFile)
+        if LovesDic[userMentioned] != lovesOfMentioned:
+            await self.bot.get_channel(842355951738683422).send(IDsDic["Kon"] + "Loves did not update for" + user.mention)
+        loveFile.close()
+        #await self.bot.get_channel(842355951738683422).send(GetJsonData(LovesDic, "Loves"))
+        #await self.bot.get_channel(842355951738683422).send(mes)
 
     @commands.command()
     async def dailychips(self, ctx, arg=None):
@@ -203,10 +208,12 @@ class Discord_prof(commands.Cog):
         file.close()
 
         # Send the message that the author got their chips.
-        await ctx.send(ctx.author.mention + " you get " + str(chips) + " chips.")
+        mes = await ctx.send(ctx.author.mention + " you get " + str(chips) + " chips.")
 
         dailyChipFile.close()
         chipFile.close()
+
+        await self.bot.get_channel(844480371663568936).send(mes)
 
     @commands.command()
     async def givechips(self, ctx, arg1=None, arg2=None):
@@ -258,9 +265,11 @@ class Discord_prof(commands.Cog):
             return
 
         # Send the message that the author gave chips to the user mentioned.
-        await ctx.send(ctx.author.mention + " gives " + arg2 + " chips to " + user.mention)
+        mes = await ctx.send(ctx.author.mention + " gives " + arg2 + " chips to " + user.mention)
 
         chipFile.close()
+
+        await self.bot.get_channel(844480371663568936).send(mes)
 
     @commands.command()
     async def profile(self, ctx, arg=None):

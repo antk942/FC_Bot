@@ -120,7 +120,7 @@ async def sendTempEMB(ctx):
 @bot.event
 async def on_ready():
     print('bot ready')
-    # await bot.get_channel(824436047593209858).send("bot is online")
+    #await bot.get_channel(824436047593209858).send(IDsDic["Kon"])
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="me being the best"))
 
 
