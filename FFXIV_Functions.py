@@ -452,10 +452,13 @@ def GetCheapestAndWorld(soupUniv):
     soupResWorld = soupUniv.find_all(class_="cheapest_price_info")
     if not soupResWorld:
         return
-    dic = {
-        "HQ": [soupResPrice[0].text, soupResWorld[0].find("strong").text],
-        "NQ": [soupResPrice[1].text, soupResWorld[1].find("strong").text]
-    }
+
+    dic = {}
+    if len(soupResPrice) > 1:
+        dic["HQ"] = [soupResPrice[0].text, soupResWorld[0].find("strong").text]
+        dic["NQ"] = [soupResPrice[1].text, soupResWorld[1].find("strong").text]
+    else:
+        dic[""] = [soupResPrice[0].text, soupResWorld[0].find("strong").text]
     return dic
 
 
