@@ -14,6 +14,7 @@ ffxivLodestoneIDPath = "Jsons_FFXIV/FFXIV_Lodestone_ID.json"
 with open("Whoami_FFXIV/Whoami_User_Images.json") as file:
     UsersImgs = json.load(file)
 
+
 # ** NOTE: General functions. ** #
 
 
@@ -38,7 +39,8 @@ def CheckIfAuthorInfoChanged(author):
     with open(ffxivLodestoneIDPath) as f:
         Lodestone_IDDic = json.load(f)
     # Set the soup for every other info.
-    requestResult = requests.get("https://na.finalfantasyxiv.com/lodestone/character/" + Lodestone_IDDic[author][0] + "/")
+    requestResult = requests.get(
+        "https://na.finalfantasyxiv.com/lodestone/character/" + Lodestone_IDDic[author][0] + "/")
     soup = BeautifulSoup(requestResult.content, 'html.parser')
 
     titleNameWorld = TitleNameWorld(soup)
@@ -53,6 +55,7 @@ def CheckIfAuthorInfoChanged(author):
         world = titleNameWorld[2].split("\xa0")[0]
         Lodestone_IDDic.update({author: [id, name, surname, world]})
         file.write(json.dumps(Lodestone_IDDic, sort_keys=True, indent=4, separators=(',', ': ')))
+
 
 # ** NOTE: Whoami functions. ** #
 
@@ -423,3 +426,155 @@ async def SendLogs(ctx, user, world):
             embed.add_field(name=key, value=message, inline=False)
 
     return embed
+
+
+# ** NOTE: Market board functions. ** #
+
+def GetItemSoup(item):
+    urlInfo = requests.get("https://xivapi.com/search?string=" + item)
+
+    jsonInfo = json.loads(urlInfo.content)
+
+    if not jsonInfo["Results"]:
+        return None
+
+    # Get the url.
+    url = "https://universalis.app/market/" + str(jsonInfo["Results"][0]["ID"])
+    univREQ = requests.get(url)
+
+    return BeautifulSoup(univREQ.content, 'html.parser'), url
+
+
+def GetCheapestAndWorld(soupUniv):
+    soupResPrice = soupUniv.find_all(class_="cheapest_value")
+    if not soupResPrice:
+        return
+    soupResWorld = soupUniv.find_all(class_="cheapest_price_info")
+    if not soupResWorld:
+        return
+    dic = {
+        "HQ": [soupResPrice[0].text, soupResWorld[0].find("strong").text],
+        "NQ": [soupResPrice[1].text, soupResWorld[1].find("strong").text]
+    }
+    return dic
+
+
+def CheckLessTime(timeList, mostTime, timeFormat):  # Most time should be 59 for minutes and 23 for hours.
+    if not timeList:
+        return None
+    lessTime = mostTime
+    whichWorld = 0
+    i = 1
+    while i < len(timeList):
+        temp = timeList[i].split(" ")[0]
+        if temp < lessTime:
+            lessTime = temp
+            whichWorld = i
+        i += 2
+    if timeFormat == "mins":
+        footer = timeList[whichWorld] + " at " + timeList[whichWorld - 1]
+    else:
+        footer = timeList[whichWorld - 1] + " at " + timeList[whichWorld]
+
+    return timeList[whichWorld] + " at " + timeList[whichWorld - 1]
+
+
+def GetMostRecentUpdate(soupUniv):
+    soupResTimes = soupUniv.find_all(class_="market_update_times")
+    newLis = soupResTimes[0].text.split("\n")
+    # Remove empty spaces.
+    while "" in newLis:
+        newLis.remove("")
+    agoList = []
+    i = 1
+    # Make a list with every world that has ago in it.
+    while i < len(newLis):
+        if "ago" in newLis[i]:
+            agoList.append(newLis[i - 1])
+            agoList.append(newLis[i])
+        i += 2
+    # Make a list with all the items with minutes in it.
+    timeSTR = ["hour", "minute"]
+    minsList = []
+    for i in range(0, len(agoList)):
+        for timeItems in timeSTR:
+            for j in range(0, 2):
+                if timeItems in agoList[i] and timeItems == timeSTR[j]:
+                    if timeItems == timeSTR[1]:
+                        minsList.append(newLis[i - 1])
+                        minsList.append(newLis[i])
+
+    if CheckLessTime(minsList, "59", "mins") is not None:
+        footer = CheckLessTime(minsList, "59", "mins")
+    elif CheckLessTime(agoList, "23", "hours") is not None:
+        footer = CheckLessTime(agoList, "23", "hours")
+    else:
+        footer = "Last time updated more than a day ago."
+
+    return footer
+
+
+def GetPriceInWorlds(soupUniv):
+    worlds = ["Lich", "Odin", "Phoenix", "Shiva", "Zodiark", "Twintania"]
+    # First value is NQ second is HQ.
+    pricesWorlds = {
+        "Lich": ["-", "-"],
+        "Odin": ["-", "-"],
+        "Phoenix": ["-", "-"],
+        "Shiva": ["-", "-"],
+        "Zodiark": ["-", "-"],
+        "Twintania": ["-", "-"]
+    }
+    for world in worlds:
+        tabRes = soupUniv.find('div', class_="tab-page tab-cw" + world)
+        tabRes = tabRes.find(class_="table-sortable")
+        prices = tabRes.find_all('tbody')
+
+        for price in prices:
+            lowRes = price.find(class_="price-hq", attrs={'data-sort-value': "0"})
+            if lowRes is not None:
+                parent = lowRes.findParent("tr")
+                lowQ = parent.find(class_="price-current").text
+                pricesWorlds[world][0] = lowQ
+
+            highRes = price.find(class_="price-hq", attrs={'data-sort-value': "1"})
+            if highRes is not None:
+                parent = highRes.findParent("tr")
+                highQ = parent.find(class_="price-current").text
+                pricesWorlds[world][1] = highQ
+
+    return pricesWorlds
+
+
+async def GetMarketBoardEMB(ctx, item):
+    correctedItem = item.replace(" ", "%20")
+    if GetItemSoup(correctedItem) is None:
+        await ctx.send(ctx.author.mention + " the item you requested was not found.")
+        return None
+    else:
+        soupUniv = GetItemSoup(correctedItem)[0]
+        url = GetItemSoup(correctedItem)[1]
+
+    cheapestValueAt = GetCheapestAndWorld(soupUniv)  # description
+    latestUpdate = GetMostRecentUpdate(soupUniv)  # footer
+    allWorlds = GetPriceInWorlds(soupUniv)  # fields
+
+    desc = ""
+    for key in cheapestValueAt:
+        desc += key + " " + cheapestValueAt[key][0] + " at " + cheapestValueAt[key][1] + "\n"
+
+    pricesEMB = discord.Embed(title=item, url=url, description="**" + desc + "**",
+                              color=Settings.generalColorEMB)
+    pricesEMB.set_thumbnail(url=Settings.botIcon)
+    # Set the footer.
+    pricesEMB.set_footer(text=latestUpdate)
+    # Set the fields.
+    for key in allWorlds:
+        value = ""
+        if allWorlds[key][0] != "-":
+            value += "NQ " + allWorlds[key][0] + "\n"
+        if allWorlds[key][1] != "-":
+            value += "HQ " + allWorlds[key][1]
+        pricesEMB.add_field(name=key, value=value, inline=False)
+
+    return pricesEMB

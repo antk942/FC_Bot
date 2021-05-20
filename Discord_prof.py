@@ -166,8 +166,8 @@ class Discord_prof(commands.Cog):
         if LovesDic[userMentioned] != lovesOfMentioned:
             await self.bot.get_channel(842355951738683422).send(IDsDic["Kon"] + "Loves did not update for" + user.mention)
         loveFile.close()
-        #await self.bot.get_channel(842355951738683422).send(GetJsonData(LovesDic, "Loves"))
-        #await self.bot.get_channel(842355951738683422).send(mes)
+        await self.bot.get_channel(842355951738683422).send(GetJsonData(LovesDic, "Loves"))
+        await self.bot.get_channel(842355951738683422).send(ctx.author.mention.replace('@', "") + " gives a love to " + user.mention.replace('@', ""))
 
     @commands.command()
     async def dailychips(self, ctx, arg=None):
@@ -208,7 +208,8 @@ class Discord_prof(commands.Cog):
         file.close()
 
         # Send the message that the author got their chips.
-        mes = await ctx.send(ctx.author.mention + " you get " + str(chips) + " chips.")
+        mes = ctx.author.mention + " you get " + str(chips) + " chips."
+        await ctx.send(ctx.author.mention + " you get " + str(chips) + " chips.")
 
         dailyChipFile.close()
         chipFile.close()
@@ -265,7 +266,8 @@ class Discord_prof(commands.Cog):
             return
 
         # Send the message that the author gave chips to the user mentioned.
-        mes = await ctx.send(ctx.author.mention + " gives " + arg2 + " chips to " + user.mention)
+        mes = ctx.author.mention + " gives " + arg2 + " chips to " + user.mention
+        await ctx.send(ctx.author.mention + " gives " + arg2 + " chips to " + user.mention)
 
         chipFile.close()
 

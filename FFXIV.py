@@ -20,7 +20,8 @@ def Commands():
     commList = ["iam",
                 "whoami",
                 "mylogs",
-                "logs"]
+                "logs",
+                "mb"]
 
     commsExplanation = {
         "iam": ["Add your character.",
@@ -30,7 +31,9 @@ def Commands():
         "mylogs": ["Check your logs.",
                    "$mylogs"],
         "logs": ["Check someones logs.",
-                 "$logs <name + surname + world>"]
+                 "$logs <name + surname + world>"],
+        "mb": ["Check prices for a specific item.",
+               "$mb <item name>"]
     }
 
     return commList, commsExplanation
@@ -52,6 +55,7 @@ class FFXIV(commands.Cog):
 
     @commands.command()
     async def iam(self, ctx, arg1=None, arg2=None, arg3=None):  # arg1 = name, arg2 = surname, arg3 = world.
+        await ctx.message.add_reaction("⏳")
         # Get the lodestone id from the api.
         lodestoneID = await FFXIV_Functions.GetUserLodestoneID(ctx, arg1, arg2, arg3, 'iam')
         # If the function got an error exit the command.
@@ -75,6 +79,7 @@ class FFXIV(commands.Cog):
 
     @commands.command()
     async def whoami(self, ctx, arg=None):
+        await ctx.message.add_reaction("⏳")
         if arg is not None:
             await ctx.send(embed=Settings.OnErrorMessage('whoami', 1))
             return
@@ -100,6 +105,7 @@ class FFXIV(commands.Cog):
 
     @commands.command()
     async def mylogs(self, ctx, arg=None):
+        await ctx.message.add_reaction("⏳")
         if arg is not None:
             await ctx.send(embed=Settings.OnErrorMessage('mylogs', 1))
             return
@@ -125,6 +131,7 @@ class FFXIV(commands.Cog):
 
     @commands.command()
     async def logs(self, ctx, arg1=None, arg2=None, arg3=None):
+        await ctx.message.add_reaction("⏳")
         # Check if argument is a valid person, not a role or invalid.
         if arg1 is None or arg2 is None or arg3 is None:
             await ctx.send(embed=Settings.OnErrorMessage("logs", 0))
@@ -135,6 +142,18 @@ class FFXIV(commands.Cog):
         if embed is None:
             return
         await ctx.send(embed=embed)
+
+    @commands.command()
+    async def mb(self, ctx, *arg):
+        await ctx.message.add_reaction("⏳")
+        item = ' '.join(arg)
+        if not item:
+            await ctx.send(embed=Settings.OnErrorMessage("mb", 0))
+            return
+        retu = await FFXIV_Functions.GetMarketBoardEMB(ctx, item)
+        if retu is None:
+            return
+        await ctx.send(embed=retu)
 
 
 def setup(bot):

@@ -57,6 +57,9 @@ class Company_Projects(commands.Cog):
     async def addrecipe(self, ctx, *arg):
         # Take the arg into a str.
         recipe = ' '.join(arg)
+        if not recipe:
+            await ctx.send(embed=Settings.OnErrorMessage("addrecipe", 0))
+            return
 
         # See if the recipe is in the json.
         if recipe in RecipesDic:

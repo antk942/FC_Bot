@@ -58,3 +58,8 @@ def ChangeAuthorID(ctx):
 async def ChangeArgToUser(ctx, arg):  # NOTE remember to await this function.
     id = arg.replace("<", "").replace("@", "").replace(">", "").replace("!", "")
     return await ctx.guild.fetch_member(id)
+
+
+async def GetMember(ctx, arg):
+    ID1 = arg.replace("<", "").replace("@", "").replace(">", "").replace("!", "")
+    return await ctx.guild.fetch_member(ID1)
