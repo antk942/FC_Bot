@@ -35,7 +35,7 @@ def AddFieldsToHelp(emb, comm, commsList):
             descs["desc" + str(i)] += commsList[j * 3 + i] + "\n"
 
     for i in range(0, extralines):  # For any extra line needed.
-        descs["desc" + str(i)] += commsList[(numOfComms - extralines)]
+        descs["desc" + str(i)] += commsList[(numOfComms - extralines + i)]
 
     # Set empty values for the rest of desc if they dont have any value.
     for key in descs:
