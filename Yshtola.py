@@ -119,9 +119,9 @@ async def sendTempEMB(ctx):
     #await bot.get_channel(channel).send(embed=newEmbd)"""
 
 
-@tasks.loop(seconds=60.0)
+@tasks.loop(seconds=30.0)
 async def ShowGMTPresence():
-    now = "GMT is: " + time.strftime("%H:%M", time.gmtime())
+    now = "ST is: " + time.strftime("%H:%M", time.gmtime())
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=now))
 
 
