@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 import Discord_prof
 from Discord_prof import Discord_prof
@@ -21,6 +21,8 @@ import FFXIV_Announcements
 import Settings
 
 import ctypes.util
+
+import time
 
 bot = commands.Bot(command_prefix='$')
 bot.remove_command('help')
@@ -117,11 +119,18 @@ async def sendTempEMB(ctx):
     #await bot.get_channel(channel).send(embed=newEmbd)"""
 
 
+@tasks.loop(seconds=60.0)
+async def ShowGMTPresence():
+    now = "GMT is: " + time.strftime("%H:%M", time.gmtime())
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=now))
+
+
 @bot.event
 async def on_ready():
     print('bot ready')
     #await bot.get_channel(824436047593209858).send(IDsDic["Kon"])
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="me being the best"))
+    await bot.wait_until_ready()
+    ShowGMTPresence.start()
 
 
 
