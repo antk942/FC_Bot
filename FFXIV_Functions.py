@@ -437,9 +437,16 @@ def GetItemSoup(item):
 
     if not jsonInfo["Results"]:
         return None
+    # Find the exact item.
+    itemCode = ""
+    itemName = item.replace("%20", " ").lower()
+    for i in range(0, len(jsonInfo["Results"])):
+        if jsonInfo["Results"][i]["Name"].lower() == itemName:
+            itemCode = str(jsonInfo["Results"][i]["ID"])
+            break
 
     # Get the url.
-    url = "https://universalis.app/market/" + str(jsonInfo["Results"][0]["ID"])
+    url = "https://universalis.app/market/" + itemCode
     univREQ = requests.get(url)
 
     return BeautifulSoup(univREQ.content, 'html.parser'), url
@@ -474,12 +481,8 @@ def CheckLessTime(timeList, mostTime, timeFormat):  # Most time should be 59 for
             lessTime = temp
             whichWorld = i
         i += 2
-    if timeFormat == "mins":
-        footer = timeList[whichWorld] + " at " + timeList[whichWorld - 1]
-    else:
-        footer = timeList[whichWorld - 1] + " at " + timeList[whichWorld]
 
-    return timeList[whichWorld] + " at " + timeList[whichWorld - 1]
+    return "Last time updated " + timeList[whichWorld] + " at " + timeList[whichWorld - 1]
 
 
 def GetMostRecentUpdate(soupUniv):
@@ -555,8 +558,9 @@ async def GetMarketBoardEMB(ctx, item):
         await ctx.send(ctx.author.mention + " the item you requested was not found.")
         return None
     else:
-        soupUniv = GetItemSoup(correctedItem)[0]
-        url = GetItemSoup(correctedItem)[1]
+        itemSoupRet = GetItemSoup(correctedItem)
+        soupUniv = itemSoupRet[0]
+        url = itemSoupRet[1]
 
     cheapestValueAt = GetCheapestAndWorld(soupUniv)  # description
     latestUpdate = GetMostRecentUpdate(soupUniv)  # footer
@@ -578,6 +582,8 @@ async def GetMarketBoardEMB(ctx, item):
             value += "NQ " + allWorlds[key][0] + "\n"
         if allWorlds[key][1] != "-":
             value += "HQ " + allWorlds[key][1]
+        if not value:
+            value = "No prices found"
         pricesEMB.add_field(name=key, value=value, inline=False)
 
     return pricesEMB
