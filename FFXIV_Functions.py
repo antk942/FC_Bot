@@ -441,7 +441,7 @@ def GetItemSoup(item):
     itemCode = ""
     itemName = item.replace("%20", " ").lower()
     for i in range(0, len(jsonInfo["Results"])):
-        if jsonInfo["Results"][i]["Name"].lower() == itemName:
+        if jsonInfo["Results"][i]["Name"].lower() == itemName and jsonInfo["Results"][i]["_"] == "item":
             itemCode = str(jsonInfo["Results"][i]["ID"])
             break
 

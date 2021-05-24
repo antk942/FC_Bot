@@ -208,12 +208,11 @@ class Discord_prof(commands.Cog):
         file.close()
 
         # Send the message that the author got their chips.
-        mes = ctx.author.mention + " you get " + str(chips) + " chips."
         await ctx.send(ctx.author.mention + " you get " + str(chips) + " chips.")
 
         dailyChipFile.close()
         chipFile.close()
-
+        mes = ctx.author.mention.replace("@", "") + " you get " + str(chips) + " chips."
         await self.bot.get_channel(844480371663568936).send(mes)
 
     @commands.command()
