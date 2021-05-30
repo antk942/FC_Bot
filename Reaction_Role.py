@@ -41,7 +41,7 @@ class Reaction_Role(commands.Cog):
         # Get the guild.
         guild = discord.utils.find(lambda g: g.id == payload.guild_id, self.bot.guilds)
         # Get the role.
-        role = discord.utils.get(guild.roles, name=payload.emoji.name) # Or "new role2" if u need dif names for emojs roles.
+        role = discord.utils.get(guild.roles, name=payload.emoji.name)  # Or "new role2" if u need dif names for emojs roles.
         # Get the member.
         member = await guild.fetch_member(str(payload.user_id))
         # Return.

@@ -150,7 +150,7 @@ class Discord_prof(commands.Cog):
         # Add the user mentioned to the loves json.
         Settings.CheckNameInJson(userMentioned, profJsonPath, LovesDic, "Loves", 0)
         with open(lovePath, 'w') as file:
-            LovesDic[userMentioned] += 1
+            LovesDic[userMentioned] = lovesOfMentioned + 1
             file.write(json.dumps(LovesDic, sort_keys=True, indent=4, separators=(',', ': ')))
         file.close()
 
@@ -161,13 +161,8 @@ class Discord_prof(commands.Cog):
         loveFile.close()
 
         # test
-        with open(lovePath) as loveFile:
-            LovesDic = json.load(loveFile)
-        if LovesDic[userMentioned] != lovesOfMentioned:
-            await self.bot.get_channel(842355951738683422).send(IDsDic["Kon"] + "Loves did not update for" + user.mention)
-        loveFile.close()
         await self.bot.get_channel(842355951738683422).send(GetJsonData(LovesDic, "Loves"))
-        await self.bot.get_channel(842355951738683422).send(ctx.author.mention.replace('@', "") + " gives a love to " + user.mention.replace('@', ""))
+        await self.bot.get_channel(842355951738683422).send(" gives a love to " + user.mention.replace('@', ""))
 
     @commands.command()
     async def dailychips(self, ctx, arg=None):
