@@ -148,7 +148,7 @@ async def Cackpot(bot, message):
     channel = Settings.ffxivannounChann
     title = "**Weekly cackpot reminder**"
     description = "Making sure you got your weekly tickets."
-    picture = "https://cdn.discordapp.com/attachments/837628182244622337/837628637670146048/Cactpot.png"
+    picture = "https://cdn.discordapp.com/attachments/837628182244622337/849317130452598794/2021-06-01_17-01-16-497_TheFashionista_-_Koji.png"
     # Set the embed details.
     newEmbd = discord.Embed(title=title, description=description, color=Settings.generalColorEMB)
     # Set the embed url.
