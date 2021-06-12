@@ -90,33 +90,25 @@ async def megalazer(ctx):
 @bot.command()
 async def sendTempEMB(ctx):
     await ctx.message.delete()
-    channel = bot.get_channel(835872021057372210)
-    msg_id = 842679110634438677
-    msg = await channel.fetch_message(msg_id)
-    await msg.edit(content="<@&841948309971402802>")
-    """# Check the author.
-    if Settings.ChangeAuthorID(ctx) != IDsDic["Kon"]:
-        return
+    channel = bot.get_channel(824706330237075476)
+    embed = discord.Embed(title="SCHEDULE",
+                          description="**Monday:**\n```bash\n\"Free\"```\n"
+                                      "**Tuesday:**\n```bash\n\"Reclear\"```\n"
+                                      "**Wednesday:**\nOrganizer: <@176301875920896000>/<@429720174913126401>\n```bash\n\"Treasure Maps\" - 16:00 ST```\n"
+                                      "**Tuesday:**\nOrganizer: <@327572759431610368>\n```bash\n\"Legacy Raids\" - 15:00 ST```\n"
+                                      "**Friday:**\nOrganizer: <@356385267545800704>\n```bash\n\"Extreme Mount Farming\" - 16:00 ST```\n"
+                                      "**Saturday:**\n```bash\n\"Alliance Raids\"```\n"
+                                      "**Sunday:**\nOrganizer: <@356385267545800704>\n```bash\n\"Unreal\" - 17:00 ST```\n",
+                          color=Settings.generalColorEMB)
 
-    channel = 836525085224730654
-    title = "*Mother's day special.*"
-    url = "https://cdn.discordapp.com/attachments/837628182244622337/839100220100968468/panda.png"
-    description = "As a mother of our lovely FC, Kon will give everyone a special apple juice with a chicken for dinner.\n" \
-                  "If you want stop by the entrance " + regEm["g_love"]
+    embed.set_footer(text="If you have any questions regarding a specific event, "
+                          "please contact the person/people leading that event, "
+                          "failing that, feel free to also contact our majestic leader.",
+                     icon_url=Settings.botIcon)
 
-    picture = "https://cdn.discordapp.com/attachments/837628182244622337/840896937486057502/Screenshot_83.png"
+    embed.set_thumbnail(url=Settings.botIcon)
+    await ctx.send(embed=embed)
 
-    # Set the embed details.
-    newEmbd = discord.Embed(title=title, url=url, description=description, color=Settings.generalColorEMB)
-    # Set the embed url.
-    newEmbd.set_image(url=picture)
-    # Set the bot icon.
-    # newEmbd.set_thumbnail(url=Settings.botIcon)
-    # Set footer text.
-    #newEmbd.set_footer(text="Click the title link.")
-
-    await bot.get_channel(824706330237075476).send("<@&841948309971402802>")
-    #await bot.get_channel(channel).send(embed=newEmbd)"""
 
 
 @tasks.loop(seconds=30.0)
