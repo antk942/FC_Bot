@@ -122,7 +122,7 @@ class Discord_prof(commands.Cog):
         user = await Settings.ChangeArgToUser(ctx, arg)
 
         # Change the author id.
-        author = Settings.ChangeAuthorID(ctx)
+        author = Settings.RemoveExclaFromID(ctx)
 
         with open(dailyLovePath) as dailyLoveFile:
             LoveAllowance = json.load(dailyLoveFile)
@@ -172,7 +172,7 @@ class Discord_prof(commands.Cog):
         chips = random.randint(15, 25)
 
         # Change the author id.
-        author = Settings.ChangeAuthorID(ctx)
+        author = Settings.RemoveExclaFromID(ctx)
 
         with open(dailyChipsPath) as dailyChipFile:
             ChipAllowance = json.load(dailyChipFile)
@@ -225,7 +225,7 @@ class Discord_prof(commands.Cog):
             return
 
         # Change the author id.
-        author = Settings.ChangeAuthorID(ctx)
+        author = Settings.RemoveExclaFromID(ctx)
 
         # Change the arg.
         user = await Settings.ChangeArgToUser(ctx, arg1)
@@ -273,7 +273,7 @@ class Discord_prof(commands.Cog):
             await ctx.send(embed=Settings.OnErrorMessage('profile', 2))
             return
         # Change the author id.
-        author = Settings.ChangeAuthorID(ctx)
+        author = Settings.RemoveExclaFromID(ctx)
         embed = discord.Embed(title="**" + ctx.author.display_name + "**",
                               description="",
                               color=Settings.generalColorEMB)
@@ -304,7 +304,7 @@ class Discord_prof(commands.Cog):
     @commands.command()
     async def refreshDaily(self, ctx):
         # Change the author id.
-        author = Settings.ChangeAuthorID(ctx)
+        author = Settings.RemoveExclaFromID(ctx)
 
         if author != IDsDic["Kon"]:
             await ctx.message.delete()

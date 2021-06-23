@@ -51,15 +51,15 @@ def CheckNameInJson(name, folderName, dicName, jsonName, value):
             file.write(json.dumps(dicName, sort_keys=True, indent=4, separators=(',', ': ')))
 
 
-def ChangeAuthorID(ctx):
+def RemoveExclaFromID(ctx):
     return ctx.author.mention.replace('!', '')
 
 
+def RemoveAllFromID(ctx):
+    return ctx.author.mention.replace("<", "").replace("@", "").replace(">", "").replace("!", "")
+
+
 async def ChangeArgToUser(ctx, arg):  # NOTE remember to await this function.
-    id = arg.replace("<", "").replace("@", "").replace(">", "").replace("!", "")
+    id = RemoveAllFromID(arg)
     return await ctx.guild.fetch_member(id)
 
-
-async def GetMember(ctx, arg):
-    ID1 = arg.replace("<", "").replace("@", "").replace(">", "").replace("!", "")
-    return await ctx.guild.fetch_member(ID1)

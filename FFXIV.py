@@ -63,7 +63,7 @@ class FFXIV(commands.Cog):
             return
 
         # Change author's id.
-        author = Settings.ChangeAuthorID(ctx)
+        author = Settings.RemoveExclaFromID(ctx)
         with open(ffxivLodestoneIDPath) as f:
             Lodestone_IDDic = json.load(f)
         # If the author is already saved exit the command.
@@ -85,7 +85,7 @@ class FFXIV(commands.Cog):
             return
 
         # Change author's id.
-        author = Settings.ChangeAuthorID(ctx)
+        author = Settings.RemoveExclaFromID(ctx)
         with open(ffxivLodestoneIDPath) as f:
             Lodestone_IDDic = json.load(f)
         # Check if the author has used iam.
@@ -110,7 +110,7 @@ class FFXIV(commands.Cog):
             await ctx.send(embed=Settings.OnErrorMessage('mylogs', 1))
             return
         # Change author's id.
-        author = Settings.ChangeAuthorID(ctx)
+        author = Settings.RemoveExclaFromID(ctx)
         with open(ffxivLodestoneIDPath) as f:
             Lodestone_IDDic = json.load(f)
         if author not in Lodestone_IDDic:

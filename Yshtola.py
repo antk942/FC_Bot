@@ -110,7 +110,6 @@ async def sendTempEMB(ctx):
     await ctx.send(embed=embed)
 
 
-
 @tasks.loop(seconds=30.0)
 async def ShowGMTPresence():
     now = "ST is: " + time.strftime("%H:%M", time.gmtime())
