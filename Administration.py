@@ -13,7 +13,7 @@ def Commands():
     ]
 
     commsExplanation = {
-        "clear": ["Clear an amount of messages, default 5, available only to The Top Guy.",
+        "clear": ["Clear an amount of messages, default 5, available only to admins.",
                   "$clear <amount>/ optional"]
     }
 
