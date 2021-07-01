@@ -22,7 +22,7 @@ class Event(commands.Cog):
 
     @commands.command()
     async def createevent(self, ctx):
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
         await ctx.send(embed=SendEmbedToUser("Hello"))
 
 

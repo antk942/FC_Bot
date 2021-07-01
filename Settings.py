@@ -10,6 +10,10 @@ def init():
     global testGround
     testGround = 824436047593209858
 
+    # Ysthola links server id.
+    global ystholaLinksID
+    ystholaLinksID = 826820702480891914
+
     global ffxivannounChann
     ffxivannounChann = 836525085224730654
 
@@ -44,6 +48,7 @@ def OnErrorMessage(commandName, numOfIssue):  # NOTE call this like await ctx.se
     return errorEmbed
 
 
+# TODO remove this function.
 def CheckNameInJson(name, folderName, dicName, jsonName, value):
     if name not in dicName:
         with open(folderName + "/" + jsonName + ".json", 'w') as file:
@@ -51,15 +56,24 @@ def CheckNameInJson(name, folderName, dicName, jsonName, value):
             file.write(json.dumps(dicName, sort_keys=True, indent=4, separators=(',', ': ')))
 
 
-def RemoveExclaFromID(ctx):
-    return ctx.author.mention.replace('!', '')
+def RemoveExclaFromID(arg):
+    return arg.replace('!', '')
 
 
-def RemoveAllFromID(ctx):
-    return ctx.author.mention.replace("<", "").replace("@", "").replace(">", "").replace("!", "")
+def RemoveAllFromID(arg):
+    return arg.replace("<", "").replace("@", "").replace(">", "").replace("!", "")
 
 
-async def ChangeArgToUser(ctx, arg):  # NOTE remember to await this function.
+# NOTE remember to await these functions.
+async def ChangeArgToUser(ctx, arg):
     id = RemoveAllFromID(arg)
     return await ctx.guild.fetch_member(id)
 
+
+async def CommandUnderConstruction(ctx, mes):  #
+    await ctx.send(mes + " is under construction.")
+
+
+async def PurgeMessages(bot, channel, amount=5):
+    chan = await bot.fetch_channel(channel)  # get_channel
+    await chan.purge(limit=amount)

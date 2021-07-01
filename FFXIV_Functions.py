@@ -9,7 +9,12 @@ import json
 
 import Settings
 
+# Ysthola links ID.
+ystholaLinksID = Settings.ystholaLinksID
+
 ffxivLodestoneIDPath = "Jsons_FFXIV/FFXIV_Lodestone_ID.json"
+ffxivLodestoneChannel = 858650958106984478
+ffxivLodestoneID = 1
 
 with open("Whoami_FFXIV/Whoami_User_Images.json") as file:
     UsersImgs = json.load(file)
@@ -60,8 +65,8 @@ def CheckIfAuthorInfoChanged(author):
 # ** NOTE: Whoami functions. ** #
 
 
-def GetTextPos(canvas, str, font, xPos):
-    w, h = canvas.textsize(str, font=font)
+def GetTextPos(canvas, newStr, font, xPos):
+    w, h = canvas.textsize(newStr, font=font)
     return (xPos - w) / 2
 
 

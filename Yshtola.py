@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands, tasks
 
-import Discord_prof
+import json
+
 from Discord_prof import Discord_prof
 
 from FFXIV import FFXIV
@@ -15,6 +16,8 @@ from Event import Event
 from Reaction_Role import Reaction_Role
 
 from Help_Messages import Help_Messages
+
+from Administration import Administration
 
 import FFXIV_Announcements
 
@@ -33,6 +36,7 @@ bot.add_cog(FFXIV(bot))
 bot.add_cog(Company_Projects(bot))
 bot.add_cog(Social(bot))
 bot.add_cog(Event(bot))
+bot.add_cog(Administration(bot))
 bot.add_cog(Reaction_Role(bot))
 bot.add_cog(Help_Messages(bot))
 
@@ -70,10 +74,17 @@ async def on_message(message):
     await FFXIV_Announcements.Cackpot(bot, message)
     # Ffxiv lodestone announcements.
     await FFXIV_Announcements.Ffxiv_Lodestone(bot, message)
-    # Json data download.
-    await Discord_prof.GiveData(bot, message)
 
     await bot.process_commands(message)
+
+
+@bot.event
+async def on_member_join(member):
+    try:
+        role = discord.utils.get(member.server.roles, name="The New Guys")
+        await bot.add_roles(member, role)
+    except:
+        await bot.get_channel(824436047593209858).send("Could not give role for some reason, investigate")
 
 
 @bot.command()
@@ -94,11 +105,11 @@ async def sendTempEMB(ctx):
     embed = discord.Embed(title="SCHEDULE",
                           description="**Monday:**\n```bash\n\"Free\"```\n"
                                       "**Tuesday:**\n```bash\n\"Reclear\"```\n"
-                                      "**Wednesday:**\nOrganizer: <@176301875920896000>/<@429720174913126401>\n```bash\n\"Treasure Maps\" - 16:00 ST```\n"
+                                      "**Wednesday:**\nOrganizer: <@429720174913126401>\n```bash\n\"Treasure Maps\" - 16:00 ST```\n"
                                       "**Tuesday:**\nOrganizer: <@327572759431610368>\n```bash\n\"Legacy Raids\" - 15:00 ST```\n"
-                                      "**Friday:**\nOrganizer: <@356385267545800704>\n```bash\n\"Extreme Mount Farming\" - 16:00 ST```\n"
+                                      "**Friday:**\nOrganizer: <@176301875920896000>\n```bash\n\"Extreme Mount Farming\" - 16:00 ST```\n"
                                       "**Saturday:**\n```bash\n\"Alliance Raids\"```\n"
-                                      "**Sunday:**\nOrganizer: <@356385267545800704>\n```bash\n\"Unreal\" - 17:00 ST```\n",
+                                      "**Sunday:**\nOrganizer: <@&824121865790160908>\n```bash\n\"Unreal\" - 17:00 ST```\n",
                           color=Settings.generalColorEMB)
 
     embed.set_footer(text="If you have any questions regarding a specific event, "
@@ -110,10 +121,26 @@ async def sendTempEMB(ctx):
     await ctx.send(embed=embed)
 
 
+@bot.command()
+async def sendTempMes(ctx):
+    await ctx.message.delete()
+
+
 @tasks.loop(seconds=30.0)
 async def ShowGMTPresence():
     now = "ST is: " + time.strftime("%H:%M", time.gmtime())
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=now))
+
+
+@tasks.loop(seconds=360.0)
+async def DailyRefreshes():
+    timeN = time.strftime("%H:%M", time.gmtime())
+    check = timeN.split(":")
+    if check[0] == "01":
+        await Discord_prof.DailyREF(bot)
+        marketBoardChannel = 858749666765570058
+        for i in range(0, 10):
+            await Settings.PurgeMessages(bot, marketBoardChannel, 100)
 
 
 @bot.event
@@ -122,6 +149,11 @@ async def on_ready():
     #await bot.get_channel(824436047593209858).send(IDsDic["Kon"])
     await bot.wait_until_ready()
     ShowGMTPresence.start()
+    DailyRefreshes.start()
+    """print('Servers connected to:')
+    for guild in bot.guilds:
+        print(guild.name)"""
+
 
 
 

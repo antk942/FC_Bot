@@ -12,6 +12,8 @@ import FFXIV
 
 import Social
 
+import Administration
+
 import Settings
 
 Settings.init()
@@ -52,6 +54,43 @@ def AddFieldsToHelp(emb, comm, commsList):
     return emb
 
 
+async def SendAllCommands(ctx, categories):
+    embed = discord.Embed(title="**Commands**",
+                          description="See all the commands here:",
+                          color=Settings.generalColorEMB)
+
+    # Add all the fields.
+    for key in categories:
+        embed = AddFieldsToHelp(embed, key, categories[key][0])
+
+    embed.set_footer(text="For more information on a command try $help <command name>,\n "
+                          "or on a category <category name>",
+                     icon_url=Settings.botIcon)
+
+    await ctx.send(embed=embed)
+
+
+async def SendCommandsInCategory(ctx, categories, givenArg):
+    embed = discord.Embed(title="**" + givenArg + " commands**",
+                          description=ctx.author.mention,
+                          color=Settings.generalColorEMB)
+    # Add the field.
+    explanations = categories[givenArg][1]
+    for key in explanations:
+        embed.add_field(name=key, value=explanations[key][0], inline=False)
+    await ctx.send(embed=embed)
+
+
+async def SendSpecificCommand(ctx, categories, givenArg, key, commKey):
+    embed = discord.Embed(title="**" + givenArg + " explanation**",
+                          description=ctx.author.mention,
+                          color=Settings.generalColorEMB)
+    embed.add_field(name=categories[key][1][commKey][0],
+                    value=categories[key][1][commKey][1],
+                    inline=False)
+    await ctx.send(embed=embed)
+
+
 class Help_Messages(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -68,49 +107,34 @@ class Help_Messages(commands.Cog):
             "Social": [Social.Commands()[0],
                        Social.Commands()[1]]
         }
+        specialCategories = {
+            "Administration": [Administration.Commands()[0],
+                               Administration.Commands()[1]]
+        }
 
         # Take the arg into a str.
         givenArg = ' '.join(arg)
 
         if not givenArg:
-            embed = discord.Embed(title="**Commands**",
-                                  description="See all the commands here:",
-                                  color=Settings.generalColorEMB)
-
-            # Add all the fields.
-            for key in categories:
-                embed = AddFieldsToHelp(embed, key, categories[key][0])
-
-            embed.set_footer(text="For more information on a command try $help <command name>,\n "
-                                  "or on a category <category name>",
-                             icon_url=Settings.botIcon)
-
-            await ctx.send(embed=embed)
+            await SendAllCommands(ctx, categories)
             return
 
         # Send an explanation for a category.
         if givenArg in categories:
-            embed = discord.Embed(title="**" + givenArg + " commands**",
-                                  description=ctx.author.mention,
-                                  color=Settings.generalColorEMB)
-            # Add the field.
-            explanations = categories[givenArg][1]
-            for key in explanations:
-                embed.add_field(name=key, value=explanations[key][0], inline=False)
-            await ctx.send(embed=embed)
+            await SendCommandsInCategory(ctx, categories, givenArg)
+            return
+        elif givenArg in specialCategories:
+            author = Settings.RemoveExclaFromID(ctx.author.mention)
+            if author != IDsDic["Shiroi"] and author != IDsDic["Kon"] and author != IDsDic["Lili"] and author != IDsDic["Mid"]:
+                return
+            await SendCommandsInCategory(ctx, specialCategories, givenArg)
             return
 
         # Send information on how to use a command.
         for key in categories:
             for commKey in categories[key][1]:
                 if commKey == givenArg:
-                    embed = discord.Embed(title="**" + givenArg + " explanation**",
-                                          description=ctx.author.mention,
-                                          color=Settings.generalColorEMB)
-                    embed.add_field(name=categories[key][1][commKey][0],
-                                    value=categories[key][1][commKey][1],
-                                    inline=False)
-                    await ctx.send(embed=embed)
+                    await SendSpecificCommand(ctx, categories, givenArg, key, commKey)
                     return
 
         await ctx.send(ctx.author.mention + " the argument you provided is not valid. Make sure you typed correctly.")

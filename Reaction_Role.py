@@ -16,7 +16,7 @@ class Reaction_Role(commands.Cog):
 
     @commands.command()
     async def SendReactionRoleEMB(self, ctx):
-        if Settings.RemoveExclaFromID(ctx) != IDsDic["Kon"]:
+        if Settings.RemoveExclaFromID(ctx.author.mention) != IDsDic["Kon"]:
             return
         embed = discord.Embed(title="** *Select your role* **", colour=Settings.generalColorEMB,
                               description="These roles are going to be used to notify you at the <#836524035059744778>, <#836525085224730654> and <#835872021057372210> .")

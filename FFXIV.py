@@ -63,7 +63,7 @@ class FFXIV(commands.Cog):
             return
 
         # Change author's id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
         with open(ffxivLodestoneIDPath) as f:
             Lodestone_IDDic = json.load(f)
         # If the author is already saved exit the command.
@@ -76,6 +76,7 @@ class FFXIV(commands.Cog):
             Lodestone_IDDic.update({author: [lodestoneID, arg1, arg2, arg3]})
             file.write(json.dumps(Lodestone_IDDic, sort_keys=True, indent=4, separators=(',', ': ')))
         await ctx.send(ctx.author.mention + " your character is successfully saved. " + ffxivRegEm["g_love"])
+        await self.bot.get_channel(824436047593209858).send("NEW iam.")
 
     @commands.command()
     async def whoami(self, ctx, arg=None):
@@ -85,7 +86,7 @@ class FFXIV(commands.Cog):
             return
 
         # Change author's id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
         with open(ffxivLodestoneIDPath) as f:
             Lodestone_IDDic = json.load(f)
         # Check if the author has used iam.
@@ -110,7 +111,7 @@ class FFXIV(commands.Cog):
             await ctx.send(embed=Settings.OnErrorMessage('mylogs', 1))
             return
         # Change author's id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
         with open(ffxivLodestoneIDPath) as f:
             Lodestone_IDDic = json.load(f)
         if author not in Lodestone_IDDic:

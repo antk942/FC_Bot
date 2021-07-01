@@ -87,7 +87,7 @@ class Social(commands.Cog):
 
     @commands.command()
     async def temp(self, ctx):
-        if Settings.RemoveExclaFromID(ctx) != IDsDic["Kon"]:
+        if Settings.RemoveExclaFromID(ctx.author.mention) != IDsDic["Kon"]:
             return
         fileLoc = kissLoc
         with open(fileLoc) as file:
@@ -97,7 +97,7 @@ class Social(commands.Cog):
     @commands.command()
     async def addgif(self, ctx, command, link):
         # Check the author before adding.
-        if Settings.RemoveExclaFromID(ctx) != IDsDic["Kon"]:
+        if Settings.RemoveExclaFromID(ctx.author.mention) != IDsDic["Kon"]:
             return
 
         # Open the json file.
@@ -117,7 +117,7 @@ class Social(commands.Cog):
     @commands.command()
     async def hug(self, ctx, arg=defArg):
         # Change the author id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
 
         title = None
         description = author + " hugs " + arg
@@ -128,7 +128,7 @@ class Social(commands.Cog):
     @commands.command()
     async def kiss(self, ctx, arg=defArg):
         # Change the author id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
 
         title = None
         description = author + " kisses " + arg
@@ -139,7 +139,7 @@ class Social(commands.Cog):
     @commands.command()
     async def pat(self, ctx, arg=defArg):
         # Change the author id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
 
         title = None
         description = author + " pats " + arg
@@ -150,7 +150,7 @@ class Social(commands.Cog):
     @commands.command()
     async def lick(self, ctx, arg=defArg):
         # Change the author id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
 
         title = None
         description = author + " licks " + arg
@@ -161,7 +161,7 @@ class Social(commands.Cog):
     @commands.command()
     async def poke(self, ctx, arg=defArg):
         # Change the author id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
 
         title = None
         description = author + " pokes " + arg
@@ -172,7 +172,7 @@ class Social(commands.Cog):
     @commands.command()
     async def bite(self, ctx, arg=defArg):
         # Change the author id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
 
         title = None
         description = author + " bites " + arg
@@ -183,7 +183,7 @@ class Social(commands.Cog):
     @commands.command()
     async def cry(self, ctx, arg=defArg):
         # Change the author id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
 
         title = None
         description = author + " cries because of " + arg
@@ -194,7 +194,7 @@ class Social(commands.Cog):
     @commands.command()
     async def clap(self, ctx, arg=defArg):
         # Change the author id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
 
         title = None
         description = author + " claps for " + arg
@@ -205,7 +205,7 @@ class Social(commands.Cog):
     @commands.command()
     async def angry(self, ctx, arg=defArg):
         # Change the author id.
-        author = Settings.RemoveExclaFromID(ctx)
+        author = Settings.RemoveExclaFromID(ctx.author.mention)
 
         title = None
         description = author + " is angry at " + arg
