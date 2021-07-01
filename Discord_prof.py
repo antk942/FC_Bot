@@ -138,29 +138,21 @@ async def IsARGValid(ctx, arg, commandName):
 def GetLdr(message, title):
     messageList = message.content.split(" ")
     valuesList = []
-    i = 1
+    i = 0
     while i < len(messageList):
-        valuesList.append(messageList[i])
+        valuesList.append((messageList[i], int(messageList[i + 1])))
         i += 2
 
-    finalList = []
-    for i in range(0, 5):
-        max1 = 0
-        indexOfValue = 1
+    newValLis = sorted(valuesList, reverse=True, key=lambda tup: tup[1])
 
-        for j in range(len(valuesList)):
-            if valuesList[j] > max1:
-                max1 = valuesList[j]
-                indexOfValue = valuesList.index(j)
-
-        valuesList.remove(max1)
-        finalList.append(messageList[indexOfValue])
-        finalList.append(max1)
-
-    newMessageL = " ".join(finalList)
+    newMessageS = ""
+    for i in range(0, len(newValLis)):
+        if i > 4:
+            break
+        newMessageS += newValLis[i][0] + " " + str(newValLis[i][1]) + "\n"
     # Make the embed.
     ldrEmbed = discord.Embed(title=title,
-                             description=newMessageL,
+                             description=newMessageS,
                              color=Settings.generalColorEMB)
 
     return ldrEmbed
