@@ -27,7 +27,10 @@ import ctypes.util
 
 import time
 
-bot = commands.Bot(command_prefix='$')
+intents = discord.Intents.default()
+intents.members = True
+
+bot = commands.Bot(command_prefix='$', intents=intents)
 bot.remove_command('help')
 
 # Add cogs.
@@ -80,11 +83,12 @@ async def on_message(message):
 
 @bot.event
 async def on_member_join(member):
-    try:
-        role = discord.utils.get(member.server.roles, name="The New Guys")
-        await bot.add_roles(member, role)
-    except:
-        await bot.get_channel(824436047593209858).send("Could not give role for some reason, investigate")
+    if member.guild.id == 824112000342032385:
+        try:
+            role = discord.utils.get(member.guild.roles, name="The New Guys")
+            await member.add_roles(role)
+        except:
+            await bot.get_channel(824436047593209858).send("Could not give role for some reason, investigate")
 
 
 @bot.command()
