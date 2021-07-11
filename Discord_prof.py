@@ -58,12 +58,6 @@ async def SendMessageBackup(bot, mes):
     await bot.get_channel(backups).send(mes)
 
 
-async def GetMessageFromID(bot, channel, messageID):
-    guild = bot.get_guild(ystholaLinksID)
-    channel = guild.get_channel(channel)
-    return await channel.fetch_message(messageID)
-
-
 async def CanAuthorGive(ctx, author, dailyList, message, command):
     # Check if the author is in the list and update it.
     dailyListUpdated = CheckIfPersonInTracker(author, dailyList, 0)
@@ -163,10 +157,10 @@ class Discord_prof(commands.Cog):
         self.bot = bot
 
     async def DailyREF(bot):
-        dailyLoveMessage = await GetMessageFromID(bot, dailyLoveChannel, dailyLoveID)
+        dailyLoveMessage = await Settings.GetMessageFromID(bot, dailyLoveChannel, dailyLoveID)
         await MessageUpdate(dailyLoveMessage)
 
-        dailyChipsMessage = await GetMessageFromID(bot, dailyChipsChannel, dailyChipsID)
+        dailyChipsMessage = await Settings.GetMessageFromID(bot, dailyChipsChannel, dailyChipsID)
         await MessageUpdate(dailyChipsMessage)
 
     @commands.command()
@@ -182,7 +176,7 @@ class Discord_prof(commands.Cog):
 
         # Daily love allowance handler.
         # Get the message.
-        dailyLoveMessage = await GetMessageFromID(self.bot, dailyLoveChannel, dailyLoveID)
+        dailyLoveMessage = await Settings.GetMessageFromID(self.bot, dailyLoveChannel, dailyLoveID)
         # Split into the components.
         dailyLoveList = dailyLoveMessage.content.split(" ")
         # Check if the author is allowed to give love and or update tracker.
@@ -193,7 +187,7 @@ class Discord_prof(commands.Cog):
         # Replace the ! to the user mentioned.
         userMentioned = user.mention.replace('!', '')
         # Get the message.
-        lovesMessage = await GetMessageFromID(self.bot, lovesChannel, lovesID)
+        lovesMessage = await Settings.GetMessageFromID(self.bot, lovesChannel, lovesID)
         # Split into the components.
         loveList = lovesMessage.content.split(" ")
         # Update tracker.
@@ -216,7 +210,7 @@ class Discord_prof(commands.Cog):
 
         # Daily chip allowance handler.
         # Get the message.
-        dailyChipsMessage = await GetMessageFromID(self.bot, dailyChipsChannel, dailyChipsID)
+        dailyChipsMessage = await Settings.GetMessageFromID(self.bot, dailyChipsChannel, dailyChipsID)
         # Split into the components.
         dailyChipsList = dailyChipsMessage.content.split(" ")
         # Check if the author is allowed to give love and or update tracker.
@@ -225,7 +219,7 @@ class Discord_prof(commands.Cog):
 
         # Chips handler.
         # Get the message.
-        chipsMessage = await GetMessageFromID(self.bot, chipsChannel, chipsID)
+        chipsMessage = await Settings.GetMessageFromID(self.bot, chipsChannel, chipsID)
         # Split into the components.
         chipsList = chipsMessage.content.split(" ")
         # Update tracker.
@@ -259,7 +253,7 @@ class Discord_prof(commands.Cog):
 
         # Chips handler.
         # Get the message.
-        chipsMessage = await GetMessageFromID(self.bot, chipsChannel, chipsID)
+        chipsMessage = await Settings.GetMessageFromID(self.bot, chipsChannel, chipsID)
         # Split into the components.
         chipsList = chipsMessage.content.split(" ")
 
@@ -321,7 +315,7 @@ class Discord_prof(commands.Cog):
         embed.add_field(name="Created on:", value=ctx.author.created_at.strftime("%b %d, %Y"), inline=False)
 
         # Love field.
-        lovesMessage = await GetMessageFromID(self.bot, lovesChannel, lovesID)
+        lovesMessage = await Settings.GetMessageFromID(self.bot, lovesChannel, lovesID)
         # Split into the components.
         lovesList = lovesMessage.content.split(" ")
         loves = 0
@@ -331,7 +325,7 @@ class Discord_prof(commands.Cog):
         embed.add_field(name="Love:", value=loves, inline=False)
 
         # Chips field.
-        chipsMessage = await GetMessageFromID(self.bot, chipsChannel, chipsID)
+        chipsMessage = await Settings.GetMessageFromID(self.bot, chipsChannel, chipsID)
         # Split into the components.
         chipsList = chipsMessage.content.split(" ")
         chips = 0
@@ -359,7 +353,7 @@ class Discord_prof(commands.Cog):
     async def loveldr(self, ctx):
         # Set the title.
         title = "Loves leaderboard " + regEmoj["g_love"]
-        lovesMessage = await GetMessageFromID(self.bot, lovesChannel, lovesID)
+        lovesMessage = await Settings.GetMessageFromID(self.bot, lovesChannel, lovesID)
         # Send the message.
         await ctx.send(embed=GetLdr(lovesMessage, title))
 
@@ -367,7 +361,7 @@ class Discord_prof(commands.Cog):
     async def chipldr(self, ctx):
         # Set the title.
         title = "Chips leaderboard " + regEmoj["g_cookie"]
-        chipsMessage = await GetMessageFromID(self.bot, chipsChannel, chipsID)
+        chipsMessage = await Settings.GetMessageFromID(self.bot, chipsChannel, chipsID)
         # Send the message.
         await ctx.send(embed=GetLdr(chipsMessage, title))
 

@@ -21,6 +21,8 @@ from Administration import Administration
 
 import FFXIV_Announcements
 
+import TemporaryEmbedMessages
+
 import Settings
 
 import ctypes.util
@@ -52,7 +54,7 @@ animEm = Settings.AnimatedEmojDic
 IDsDic = Settings.IDsDic
 
 
-# region Heroku magic
+"""# region Heroku magic
 print("ctypes - Find opus:")
 a = ctypes.util.find_library('opus')
 print(a)
@@ -64,7 +66,7 @@ print(b)
 print("Discord - Is loaded:")
 c = discord.opus.is_loaded()
 print(c)
-# endregion
+# endregion"""
 
 
 @bot.event
@@ -103,26 +105,24 @@ async def megalazer(ctx):
 
 
 @bot.command()
-async def sendTempEMB(ctx):
+async def sendTempEMB(ctx, arg):
     await ctx.message.delete()
-    channel = bot.get_channel(824706330237075476)
-    embed = discord.Embed(title="SCHEDULE",
-                          description="**Monday:**\n```bash\n\"Free\"```\n"
-                                      "**Tuesday:**\n```bash\n\"Reclear\"```\n"
-                                      "**Wednesday:**\nOrganizer: <@429720174913126401>\n```bash\n\"Treasure Maps\" - 16:00 ST```\n"
-                                      "**Tuesday:**\nOrganizer: <@327572759431610368>\n```bash\n\"Legacy Raids\" - 15:00 ST```\n"
-                                      "**Friday:**\nOrganizer: <@176301875920896000>\n```bash\n\"Extreme Mount Farming\" - 16:00 ST```\n"
-                                      "**Saturday:**\n```bash\n\"Alliance Raids\"```\n"
-                                      "**Sunday:**\nOrganizer: <@&824121865790160908>\n```bash\n\"Unreal\" - 17:00 ST```\n",
-                          color=Settings.generalColorEMB)
+    author = Settings.RemoveExclaFromID(ctx.author.mention)
+    if author != IDsDic["Kon"]:
+        return
 
-    embed.set_footer(text="If you have any questions regarding a specific event, "
-                          "please contact the person/people leading that event, "
-                          "failing that, feel free to also contact our majestic leader.",
-                     icon_url=Settings.botIcon)
-
-    embed.set_thumbnail(url=Settings.botIcon)
-    await ctx.send(embed=embed)
+    # Schedule.
+    if arg == "Schedule":
+        await TemporaryEmbedMessages.FCSchedule(ctx)
+    # Extreme trials.
+    elif arg == "Extreme":
+        await TemporaryEmbedMessages.TrialsARR(ctx)
+        await TemporaryEmbedMessages.TrialsHW(ctx)
+        await TemporaryEmbedMessages.TrialsSB(ctx)
+        await TemporaryEmbedMessages.TrialsShB(ctx)
+    # Savage raids.
+    elif arg == "Savage":
+        await TemporaryEmbedMessages.SavageRaids(ctx)
 
 
 @bot.command()
@@ -154,9 +154,9 @@ async def on_ready():
     await bot.wait_until_ready()
     ShowGMTPresence.start()
     DailyRefreshes.start()
-    """print('Servers connected to:')
+    print('Servers connected to:')
     for guild in bot.guilds:
-        print(guild.name)"""
+        print(guild.name)
 
 
 

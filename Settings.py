@@ -19,6 +19,14 @@ def init():
 
     global botIcon
     botIcon = "https://cdn.discordapp.com/attachments/826820702480891917/826820786919571456/unknown.png"
+    global ARRIcon
+    ARRIcon = "https://cdn.discordapp.com/attachments/863357000598814720/863357409682784276/A_Realm_Reborn.jpg"
+    global HWIcon
+    HWIcon = "https://cdn.discordapp.com/attachments/863357000598814720/863357873581326356/Heavensward.jpg"
+    global SBIcon
+    SBIcon = "https://cdn.discordapp.com/attachments/863357000598814720/863360386597388298/Stormblood.jpg"
+    global ShBIcon
+    ShBIcon = "https://cdn.discordapp.com/attachments/863357000598814720/863360422199296030/Shadowbringers.jpg"
 
     global generalColorEMB
     generalColorEMB = 0xb266ff
@@ -77,3 +85,9 @@ async def CommandUnderConstruction(ctx, mes):  #
 async def PurgeMessages(bot, channel, amount=5):
     chan = await bot.fetch_channel(channel)  # get_channel
     await chan.purge(limit=amount)
+
+
+async def GetMessageFromID(bot, channel, messageID):
+    guild = bot.get_guild(ystholaLinksID)
+    channel = guild.get_channel(channel)
+    return await channel.fetch_message(messageID)
