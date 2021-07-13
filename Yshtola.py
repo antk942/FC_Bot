@@ -109,7 +109,7 @@ async def megalazer(ctx):
 
 @bot.command()
 async def sendTempEMB(ctx, arg):
-    await ctx.message.delete()
+    #await ctx.message.delete()
     author = Settings.RemoveExclaFromID(ctx.author.mention)
     if author != IDsDic["Kon"]:
         return
@@ -126,6 +126,10 @@ async def sendTempEMB(ctx, arg):
     # Savage raids.
     elif arg == "Savage":
         await TemporaryEmbedMessages.SavageRaids(ctx)
+    elif arg == "DMOnJoin":
+        guild = discord.utils.find(lambda g: g.id == ctx.guild.id, bot.guilds)
+        member = await guild.fetch_member(str(ctx.author.id))
+        await TemporaryEmbedMessages.SendDMOnServerJoin(member)
 
 
 @bot.command()
