@@ -104,7 +104,7 @@ async def on_member_join(member):
                                                      "[Extremes](https://discord.com/channels/824112000342032385/830135464526610532/863706056637808671)\n"
                                                      "Legacy mounts:\n"
                                                      "[Legacy](https://discord.com/channels/824112000342032385/855136480120143912/863706006176399390)")
-            emb.set_footer(text="Make sure if you have any questions to ask.",
+            emb.set_footer(text="Make sure if you have any questions to contact any council member.",
                            icon_url=Settings.botIcon)
             await member.send(embed=emb)
         except:
