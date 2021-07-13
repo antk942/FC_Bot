@@ -181,3 +181,24 @@ async def SavageRaids(ctx):
     message = await ctx.send(embed=embed)
     for item in emojis:
         await message.add_reaction(item)
+
+
+async def SendDMOnServerJoin(member):
+    emb = discord.Embed(title="Welcome to The Other Guys.",
+                        description="Hello, before you start your adventure you should check out some things.",
+                        color=Settings.generalColorEMB)
+    emb.add_field(name="Rules.", value="Make sure you read carefully our rules.\n"
+                                       "[Rules](https://discord.com/channels/824112000342032385/824123037028188160/824488287976161320)",
+                  inline=False)
+    emb.add_field(name="Assign roles.", value="Check out all the cool roles you can have.\n"
+                                              "[Assign roles](https://discord.com/channels/824112000342032385/841952676317233182/841955569153998888)",
+                  inline=False)
+    emb.add_field(name="Events.", value="There you will find about all the nice events we organize.\n"
+                                        "Some of them being mount farms glamour competition etc.", inline=False)
+    emb.add_field(name="Mount farms.", value="Extreme trials mounts:\n"
+                                             "[Extremes](https://discord.com/channels/824112000342032385/830135464526610532/863706056637808671)\n"
+                                             "Legacy mounts:\n"
+                                             "[Legacy](https://discord.com/channels/824112000342032385/855136480120143912/863706006176399390)")
+    emb.set_footer(text="Make sure if you have any questions to contact any council member.",
+                   icon_url=Settings.botIcon)
+    await member.send(embed=emb)
