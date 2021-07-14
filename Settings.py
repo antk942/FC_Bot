@@ -43,6 +43,10 @@ def init():
     with open("IDs.json") as f:
         IDsDic = json.load(f)
 
+    global admins
+    admins = [IDsDic["Kon"], IDsDic["Shiroi"], IDsDic["Lili"], IDsDic["Mid"]]
+
+
 
 def OnErrorMessage(commandName, numOfIssue):  # NOTE call this like await ctx.send(embed=OnErrorMessage('command', 0))
     errorMessages = ["You have to provide a valid argument for this command. Check in help for " + commandName,

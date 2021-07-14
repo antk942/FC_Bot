@@ -125,7 +125,7 @@ class Help_Messages(commands.Cog):
             return
         elif givenArg in specialCategories:
             author = Settings.RemoveExclaFromID(ctx.author.mention)
-            if not ctx.author.guild_permissions.administrator:
+            if not ctx.author.guild_permissions.administrator or author in Settings.admins:
                 return
             await SendCommandsInCategory(ctx, specialCategories, givenArg)
             return

@@ -30,7 +30,7 @@ class Administration(commands.Cog):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
 
-        if not ctx.author.guild_permissions.administrator:
+        if not ctx.author.guild_permissions.administrator or author not in Settings.admins:
             return
 
         await Settings.PurgeMessages(self.bot, ctx.channel.id, amount)

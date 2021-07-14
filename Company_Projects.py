@@ -55,7 +55,7 @@ class Company_Projects(commands.Cog):
 
     @commands.command()
     async def addrecipe(self, ctx, *arg):
-        Settings.CommandUnderConstruction(ctx, "addrecipe")
+        await Settings.CommandUnderConstruction(ctx, "addrecipe")
         return
         # Take the arg into a str.
         recipe = ' '.join(arg)
@@ -86,7 +86,7 @@ class Company_Projects(commands.Cog):
 
     @commands.command()
     async def clearrecipe(self, ctx, arg):
-        Settings.CommandUnderConstruction(ctx, "clearrecipe")
+        await Settings.CommandUnderConstruction(ctx, "clearrecipe")
         return
         if not RecipesDic:
             await ctx.send(ctx.author.mention + " there are no recipes to delete. " + companyRegEm["g_shock"])
@@ -125,7 +125,7 @@ class Company_Projects(commands.Cog):
 
     @commands.command()
     async def additem(self, ctx, *arg):
-        Settings.CommandUnderConstruction(ctx, "additem")
+        await Settings.CommandUnderConstruction(ctx, "additem")
         return
         recipeName = arg[0]
         if recipeName not in RecipesDic:
@@ -161,7 +161,7 @@ class Company_Projects(commands.Cog):
 
     @commands.command()
     async def removeitem(self, ctx, *arg):
-        Settings.CommandUnderConstruction(ctx, "removeitem")
+        await Settings.CommandUnderConstruction(ctx, "removeitem")
         return
 
         recipeName = arg[0]
@@ -196,7 +196,7 @@ class Company_Projects(commands.Cog):
 
     @commands.command()
     async def showrecipes(self, ctx):
-        Settings.CommandUnderConstruction(ctx, "showrecipes")
+        await Settings.CommandUnderConstruction(ctx, "showrecipes")
         return
 
         if not RecipesDic:
@@ -216,7 +216,7 @@ class Company_Projects(commands.Cog):
 
     @commands.command()
     async def showrecipe(self, ctx, arg=None):
-        Settings.CommandUnderConstruction(ctx, "showrecipe")
+        await Settings.CommandUnderConstruction(ctx, "showrecipe")
         return
 
         if arg is None:
