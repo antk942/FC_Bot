@@ -108,8 +108,8 @@ class Help_Messages(commands.Cog):
                        Social.Commands()[1]]
         }
         specialCategories = {
-            "Administration": [Administration.Commands()[0],
-                               Administration.Commands()[1]]
+            "Admins": [Administration.Commands()[0],
+                       Administration.Commands()[1]]
         }
 
         # Take the arg into a str.

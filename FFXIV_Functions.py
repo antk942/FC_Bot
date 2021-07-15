@@ -450,6 +450,9 @@ def GetItemSoup(item):
             itemCode = str(jsonInfo["Results"][i]["ID"])
             break
 
+    # Item not found.
+    if not itemCode:
+        return None
     # Get the url.
     url = "https://universalis.app/market/" + itemCode
     univREQ = requests.get(url)
