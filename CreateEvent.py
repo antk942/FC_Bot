@@ -26,7 +26,7 @@ def Commands():
     commsExplanation = {
         "createevent": ["Create an event for any use.",
                         "$createevent"],
-        "deleteevent": ["Delete an event with the id you have from your dms.",
+        "deleteevent": ["Delete an event with the id you have from your dms. Make sure to use the command where the event is.",
                         "deleteevent <event id>"]
     }
 
