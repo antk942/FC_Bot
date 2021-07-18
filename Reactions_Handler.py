@@ -97,6 +97,7 @@ class Reactions_Handler(commands.Cog):
         elif str(msgId) in await Reactions_Handler_Functions.GetEventsIDs(self.bot, channelOfEvents, messageOfEvents):
             msg = await Reactions_Handler_Functions.GetMessageFromPayload(self.bot, payload.guild_id, payload.channel_id, msgId)
             newEmbed = await self.HandleEventReactionsOnAdd(msg, payload, member)
+            newEmbed.set_thumbnail(url=Settings.botIcon)
             await msg.edit(embed=newEmbed)
 
     @commands.Cog.listener()
@@ -125,6 +126,7 @@ class Reactions_Handler(commands.Cog):
         elif str(msgId) in await Reactions_Handler_Functions.GetEventsIDs(self.bot, channelOfEvents, messageOfEvents):
             msg = await Reactions_Handler_Functions.GetMessageFromPayload(self.bot, payload.guild_id, payload.channel_id, msgId)
             newEmbed = await self.HandleEventReactionsOnRemove(msg, payload, member)
+            newEmbed.set_thumbnail(url=Settings.botIcon)
             await msg.edit(embed=newEmbed)
 
 
