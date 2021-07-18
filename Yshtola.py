@@ -11,9 +11,9 @@ from Company_Projects import Company_Projects
 
 from Social import Social
 
-from Event import Event
+from CreateEvent import CreateEvent
 
-from Reaction_Role import Reaction_Role
+from Reactions_Handler import Reactions_Handler
 
 from Help_Messages import Help_Messages
 
@@ -40,9 +40,9 @@ bot.add_cog(Discord_prof(bot))
 bot.add_cog(FFXIV(bot))
 bot.add_cog(Company_Projects(bot))
 bot.add_cog(Social(bot))
-bot.add_cog(Event(bot))
+bot.add_cog(CreateEvent(bot))
 bot.add_cog(Administration(bot))
-bot.add_cog(Reaction_Role(bot))
+bot.add_cog(Reactions_Handler(bot))
 bot.add_cog(Help_Messages(bot))
 
 # Settings initialization.
@@ -126,6 +126,7 @@ async def sendTempEMB(ctx, arg):
     # Savage raids.
     elif arg == "Savage":
         await TemporaryEmbedMessages.SavageRaids(ctx)
+    # On join message.
     elif arg == "DMOnJoin":
         guild = discord.utils.find(lambda g: g.id == ctx.guild.id, bot.guilds)
         member = await guild.fetch_member(str(ctx.author.id))

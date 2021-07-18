@@ -12,6 +12,8 @@ import FFXIV
 
 import Social
 
+import CreateEvent
+
 import Administration
 
 import Settings
@@ -105,7 +107,9 @@ class Help_Messages(commands.Cog):
             "FFXIV": [FFXIV.Commands()[0],
                       FFXIV.Commands()[1]],
             "Social": [Social.Commands()[0],
-                       Social.Commands()[1]]
+                       Social.Commands()[1]],
+            "Event": [CreateEvent.Commands()[0],
+                      CreateEvent.Commands()[1]]
         }
         specialCategories = {
             "Admins": [Administration.Commands()[0],

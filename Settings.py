@@ -47,7 +47,6 @@ def init():
     admins = [IDsDic["Kon"], IDsDic["Shiroi"], IDsDic["Lili"], IDsDic["Mid"]]
 
 
-
 def OnErrorMessage(commandName, numOfIssue):  # NOTE call this like await ctx.send(embed=OnErrorMessage('command', 0))
     errorMessages = ["You have to provide a valid argument for this command. Check in help for " + commandName,
                      "I could not invoke the argument you gave. Check in help for " + commandName,
@@ -95,3 +94,28 @@ async def GetMessageFromID(bot, channel, messageID):
     guild = bot.get_guild(ystholaLinksID)
     channel = guild.get_channel(channel)
     return await channel.fetch_message(messageID)
+
+
+async def GetMember(bot, guildID, user_id):
+    # Get the guild.
+    guild = discord.utils.find(lambda g: g.id == guildID, bot.guilds)
+    # Get the member.
+    member = await guild.fetch_member(user_id)
+    return member
+
+
+async def GetRole(bot, guildID, roleName):
+    # Get the guild.
+    guild = discord.utils.find(lambda g: g.id == guildID, bot.guilds)
+    # Get the role.
+    role = discord.utils.get(guild.roles, name=roleName)
+    return role
+
+
+async def GetMemberAndRole(bot, guildID, user_id, roleName):
+    # Get the member.
+    member = await GetMember(bot, guildID, user_id)
+    # Get the role.
+    role = await GetRole(bot, guildID, roleName)
+    return member, role
+
