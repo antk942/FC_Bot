@@ -130,6 +130,7 @@ class CreateEvent(commands.Cog):
 
     @commands.command()
     async def deleteevent(self, ctx, arg):
+        await ctx.message.delete()
         messageEventIDs = await CreateEventFunctions.GetMessage(self.bot, ystholaLinksID, eventsIDSchannel, msgIDs)
         listMess = messageEventIDs.content.split(" ")
         if arg not in listMess:
