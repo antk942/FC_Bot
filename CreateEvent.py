@@ -20,7 +20,8 @@ msgIDs = 866245165231505428
 
 def Commands():
     commList = [
-        "clear"
+        "createevent",
+        "deleteevent"
     ]
 
     commsExplanation = {
