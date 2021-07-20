@@ -88,10 +88,8 @@ async def RemoveRole(member, role):
 
 async def GetEventsIDs(bot, channelOfEvents, messageOfEvents):
     msg = await Settings.GetMessageFromID(bot, channelOfEvents, messageOfEvents)
-    print(msg)
     temp = msg.content.split(" ")
     del temp[0]
-    print(temp)
     return temp
 
 
