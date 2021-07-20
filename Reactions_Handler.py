@@ -24,6 +24,7 @@ class Reactions_Handler(commands.Cog):
         self.bot = bot
 
     isBot = False
+    recentReactors = []
 
     async def HandleEventReactionsOnAdd(self, msg, payload, member):
         diction = msg.embeds[0].to_dict()
@@ -89,16 +90,19 @@ class Reactions_Handler(commands.Cog):
         if member.bot is True:
             return
 
+        msg = await Reactions_Handler_Functions.GetMessageFromPayload(self.bot, payload.guild_id, payload.channel_id,
+                                                                      msgId)
         # Check if the reacted message is the role reaction.
         if msgId == roleReacMessageID:
             # Get the role.
             role = await Settings.GetRole(self.bot, payload.guild_id, payload.emoji.name)
             await Reactions_Handler_Functions.GiveRole(member, role)
         elif str(msgId) in await Reactions_Handler_Functions.GetEventsIDs(self.bot, channelOfEvents, messageOfEvents):
-            msg = await Reactions_Handler_Functions.GetMessageFromPayload(self.bot, payload.guild_id, payload.channel_id, msgId)
             newEmbed = await self.HandleEventReactionsOnAdd(msg, payload, member)
             newEmbed.set_thumbnail(url=Settings.botIcon)
             await msg.edit(embed=newEmbed)
+
+
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
@@ -117,6 +121,9 @@ class Reactions_Handler(commands.Cog):
         if member.bot is True:
             return
 
+        msg = await Reactions_Handler_Functions.GetMessageFromPayload(self.bot, payload.guild_id, payload.channel_id,
+                                                                      msgId)
+
         # Check if the reacted message is the role reaction..
         if msgId == roleReacMessageID:
             # Get the role.
@@ -124,7 +131,6 @@ class Reactions_Handler(commands.Cog):
             # Check the role.
             await Reactions_Handler_Functions.RemoveRole(member, role)
         elif str(msgId) in await Reactions_Handler_Functions.GetEventsIDs(self.bot, channelOfEvents, messageOfEvents):
-            msg = await Reactions_Handler_Functions.GetMessageFromPayload(self.bot, payload.guild_id, payload.channel_id, msgId)
             newEmbed = await self.HandleEventReactionsOnRemove(msg, payload, member)
             newEmbed.set_thumbnail(url=Settings.botIcon)
             await msg.edit(embed=newEmbed)

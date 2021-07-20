@@ -88,7 +88,11 @@ async def RemoveRole(member, role):
 
 async def GetEventsIDs(bot, channelOfEvents, messageOfEvents):
     msg = await Settings.GetMessageFromID(bot, channelOfEvents, messageOfEvents)
-    return msg.content.split(" ").pop()
+    print(msg)
+    temp = msg.content.split(" ")
+    del temp[0]
+    print(temp)
+    return temp
 
 
 async def SameFieldsEMB(embDictionary):
