@@ -4,27 +4,34 @@ from discord.ext import commands
 import Settings
 
 Settings.init()
-IDsDic = Settings.IDsDic
 
-adventuresEmoj = "<:Accept:866367570315706378>"
-declinedEmoj = "<:Decline:866367570340610068>"
+tank = "<:Tank:867150256435888149>"
+healer = "<:Healer:867150256043065355>"
+dps = "<:Dps:867150256176889856>"
 lateEmoj = "<:Late:866367570046484483>"
 
 
 def ChooseKey(emoji):
-    if emoji == "Accept":
-        return "adventures"
-    elif emoji == "Decline":
-        return "declined"
+    if emoji == "Dps":
+        return "dps"
+    elif emoji == "Tank":
+        return "tank"
+    elif emoji == "Healer":
+        return "healer"
     elif emoji == "Late":
         return "late"
 
 
 def RemoveUserFromList(member, emojisAndListsOfEvents, emoji):
     for key in emojisAndListsOfEvents:
-        if str(emoji) == emojisAndListsOfEvents[key][0]:
+        if str(emoji) == lateEmoj:
+            if member.mention in emojisAndListsOfEvents["late"][1]:
+                emojisAndListsOfEvents["late"][1].remove(member.mention)
+                return "Late"
+        else:
             if member.mention in emojisAndListsOfEvents[key][1]:
                 emojisAndListsOfEvents[key][1].remove(member.mention)
+    return "All"
 
 
 def ReturnFieldsForEmbOnAdd(emb, listLists, diction):
@@ -36,7 +43,7 @@ def ReturnFieldsForEmbOnAdd(emb, listLists, diction):
         else:
             item.append("\u200b")
         newSTR = "\n".join(item)
-        emb.add_field(name=diction["fields"][i+3]["name"],
+        emb.add_field(name=diction["fields"][i + 3]["name"],
                       value=newSTR,
                       inline=True)
     return emb
@@ -48,7 +55,7 @@ def ReturnFieldsForEmbOnRemove(emb, listLists, diction):
         if not item:
             item.append("\u200b")
         newSTR = "\n".join(item)
-        emb.add_field(name=diction["fields"][i+3]["name"],
+        emb.add_field(name=diction["fields"][i + 3]["name"],
                       value=newSTR,
                       inline=True)
     return emb
@@ -77,6 +84,10 @@ async def GiveRole(member, role):
         # Check the member.
         if member is not None:
             await member.add_roles(role)
+            return "Given"
+        return "Error"
+    else:
+        return "Error"
 
 
 async def RemoveRole(member, role):
@@ -110,19 +121,7 @@ async def SameFieldsEMB(embDictionary):
     return emb
 
 
-async def ChangeFieldValues(msg, member, emojisAndListsOfEvents, mainKey):
-    for key in emojisAndListsOfEvents:
-        if key == mainKey:
-            if member.mention not in emojisAndListsOfEvents[key][1]:
-                emojisAndListsOfEvents[key][1].append(member.mention)
-        else:
-            if member.mention in emojisAndListsOfEvents[key][1]:
-                emojisAndListsOfEvents[key][1].remove(member.mention)
-            await msg.remove_reaction(emojisAndListsOfEvents[key][0], member)
-
-
 async def GetMessageFromPayload(bot, guildId, channel, messageID):
     guild = bot.get_guild(guildId)
     channel = guild.get_channel(channel)
     return await channel.fetch_message(messageID)
-

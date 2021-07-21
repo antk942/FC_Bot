@@ -1,12 +1,13 @@
 import discord
 from discord.ext import commands
 
+import asyncio
+
 import Reactions_Handler_Functions
 
 import Settings
 
 Settings.init()
-IDsDic = Settings.IDsDic
 
 roleReacMessageID = 841955569153998888
 roleReacChannel = 841952676317233182
@@ -14,9 +15,12 @@ roleReacChannel = 841952676317233182
 channelOfEvents = 860912833697153046
 messageOfEvents = 866245165231505428
 
-adventuresEmoj = "<:Accept:866367570315706378>"
-declinedEmoj = "<:Decline:866367570340610068>"
+tank = "<:Tank:867150256435888149>"
+healer = "<:Healer:867150256043065355>"
+dps = "<:Dps:867150256176889856>"
 lateEmoj = "<:Late:866367570046484483>"
+
+emojis = [dps, tank, healer, lateEmoj]
 
 
 class Reactions_Handler(commands.Cog):
@@ -24,49 +28,71 @@ class Reactions_Handler(commands.Cog):
         self.bot = bot
 
     isBot = False
-    recentReactors = []
+
+    recentReactors = set()
+    recentUnreactors = set()
+
+    async def ChangeFieldValues(self, msg, member, emojisAndListsOfEvents, mainKey):
+        for key in emojisAndListsOfEvents:
+            if key == mainKey:
+                if member.mention not in emojisAndListsOfEvents[key][1]:
+                    emojisAndListsOfEvents[key][1].append(member.mention)
+            elif key != "late":
+                if mainKey != "late":
+                    if member.mention in emojisAndListsOfEvents[key][1]:
+                        emojisAndListsOfEvents[key][1].remove(member.mention)
+                    self.isBot = True
+                    await msg.remove_reaction(emojisAndListsOfEvents[key][0], member)
+                    self.isBot = False
 
     async def HandleEventReactionsOnAdd(self, msg, payload, member):
         diction = msg.embeds[0].to_dict()
         newEmbed = await Reactions_Handler_Functions.SameFieldsEMB(diction)
 
-        adventures = diction["fields"][3]["value"].split("\n")
-        declined = diction["fields"][4]["value"].split("\n")
-        late = diction["fields"][5]["value"].split("\n")
+        tankLis = diction["fields"][3]["value"].split("\n")
+        healerLis = diction["fields"][4]["value"].split("\n")
+        dpsLis = diction["fields"][5]["value"].split("\n")
+        lateLis = diction["fields"][6]["value"].split("\n")
 
-        listsList = [adventures, declined, late]
+        listsList = [tankLis, healerLis, dpsLis, lateLis]
         emojisAndListsOfEvents = {
-            "adventures": (adventuresEmoj, listsList[0]),
-            "declined": (declinedEmoj, listsList[1]),
-            "late": (lateEmoj, listsList[2])
+            "tank": (tank, listsList[0]),
+            "healer": (healer, listsList[1]),
+            "dps": (dps, listsList[2]),
+            "late": (lateEmoj, listsList[3])
         }
         mainKey = Reactions_Handler_Functions.ChooseKey(payload.emoji.name)
-        self.isBot = True
-        await Reactions_Handler_Functions.ChangeFieldValues(msg, member, emojisAndListsOfEvents, mainKey)
-
+        await self.ChangeFieldValues(msg, member, emojisAndListsOfEvents, mainKey)
         return Reactions_Handler_Functions.ReturnFieldsForEmbOnAdd(newEmbed, listsList, diction)
 
     async def HandleEventReactionsOnRemove(self, msg, payload, member):
         diction = msg.embeds[0].to_dict()
         newEmbed = await Reactions_Handler_Functions.SameFieldsEMB(diction)
 
-        adventures = diction["fields"][3]["value"].split("\n")
-        declined = diction["fields"][4]["value"].split("\n")
-        late = diction["fields"][5]["value"].split("\n")
+        tankLis = diction["fields"][3]["value"].split("\n")
+        healerLis = diction["fields"][4]["value"].split("\n")
+        dpsLis = diction["fields"][5]["value"].split("\n")
+        late = diction["fields"][6]["value"].split("\n")
 
-        listsList = [adventures, declined, late]
+        listsList = [tankLis, healerLis, dpsLis, late]
         emojisAndListsOfEvents = {
-            "adventures": (adventuresEmoj, listsList[0]),
-            "declined": (declinedEmoj, listsList[1]),
-            "late": (lateEmoj, listsList[2])
+            "tank": (tank, listsList[0]),
+            "healer": (healer, listsList[1]),
+            "dps": (dps, listsList[2]),
+            "late": (lateEmoj, listsList[3])
         }
-        Reactions_Handler_Functions.RemoveUserFromList(member, emojisAndListsOfEvents, payload.emoji)
+        ret = Reactions_Handler_Functions.RemoveUserFromList(member, emojisAndListsOfEvents, payload.emoji)
+        if ret == "All":
+            for key in emojisAndListsOfEvents:
+                self.isBot = True
+                await msg.remove_reaction(emojisAndListsOfEvents[key][0], member)
+                self.isBot = False
+                await asyncio.sleep(2)
+
         return Reactions_Handler_Functions.ReturnFieldsForEmbOnRemove(newEmbed, listsList, diction)
 
     @commands.command()
     async def SendReactionRoleEMB(self, ctx):
-        if Settings.RemoveExclaFromID(ctx.author.mention) != IDsDic["Kon"]:
-            return
 
         embed = Reactions_Handler_Functions.MakeRoleReactionEMB()
 
@@ -92,17 +118,29 @@ class Reactions_Handler(commands.Cog):
 
         msg = await Reactions_Handler_Functions.GetMessageFromPayload(self.bot, payload.guild_id, payload.channel_id,
                                                                       msgId)
+
+        if member in self.recentReactors:
+            await msg.remove_reaction(payload.emoji, member)
+            self.isBot = True
+            return
+        else:
+            self.recentReactors.add(member)
+
         # Check if the reacted message is the role reaction.
         if msgId == roleReacMessageID:
             # Get the role.
             role = await Settings.GetRole(self.bot, payload.guild_id, payload.emoji.name)
-            await Reactions_Handler_Functions.GiveRole(member, role)
+            if await Reactions_Handler_Functions.GiveRole(member, role) == "Error":
+                await msg.clear_reaction(payload.emoji)
         elif str(msgId) in await Reactions_Handler_Functions.GetEventsIDs(self.bot, channelOfEvents, messageOfEvents):
+            if str(payload.emoji) not in emojis:
+                await msg.clear_reaction(payload.emoji)
+                return
             newEmbed = await self.HandleEventReactionsOnAdd(msg, payload, member)
             newEmbed.set_thumbnail(url=Settings.botIcon)
             await msg.edit(embed=newEmbed)
 
-
+        self.recentReactors.remove(member)
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
@@ -123,6 +161,10 @@ class Reactions_Handler(commands.Cog):
 
         msg = await Reactions_Handler_Functions.GetMessageFromPayload(self.bot, payload.guild_id, payload.channel_id,
                                                                       msgId)
+        if member in self.recentUnreactors:
+            return
+        else:
+            self.recentUnreactors.add(member)
 
         # Check if the reacted message is the role reaction..
         if msgId == roleReacMessageID:
@@ -134,6 +176,9 @@ class Reactions_Handler(commands.Cog):
             newEmbed = await self.HandleEventReactionsOnRemove(msg, payload, member)
             newEmbed.set_thumbnail(url=Settings.botIcon)
             await msg.edit(embed=newEmbed)
+
+        self.isBot = False
+        self.recentUnreactors.remove(member)
 
 
 def setup(bot):

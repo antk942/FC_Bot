@@ -6,6 +6,7 @@ import discord
 import Settings
 
 Settings.init()
+IDsDic = Settings.IDsDic
 # Ysthola links ID.
 ystholaLinksID = Settings.ystholaLinksID
 eventsIDSchannel = 860912833697153046
@@ -128,10 +129,12 @@ def SendCreateeventEmbed(ctx, title, description, dateGot, timeGot):
                            description=description,
                            color=Settings.generalColorEMB)
     newEMB.set_thumbnail(url=Settings.botIcon)
+    newEMB.set_footer(text="Reactions will update every couple of seconds.")
     newEMB.add_field(name="Organizer:", value=ctx.author.mention, inline=True)
     newEMB.add_field(name="Date", value=dateGot, inline=True)
     newEMB.add_field(name="Time", value=timeGot + " ST.", inline=True)
-    newEMB.add_field(name="Adventurers:", value="\u200b", inline=True)
-    newEMB.add_field(name="Declined:", value="\u200b", inline=True)
+    newEMB.add_field(name="Tank:", value="\u200b", inline=True)
+    newEMB.add_field(name="Healer:", value="\u200b", inline=True)
+    newEMB.add_field(name="Dps:", value="\u200b", inline=True)
     newEMB.add_field(name="Late:", value="\u200b", inline=True)
     return newEMB
