@@ -6,12 +6,12 @@ import Settings
 async def FCSchedule(ctx):
     embed = discord.Embed(title="SCHEDULE",
                           description="**Monday:**\n```bash\n\"Free\"```\n"
-                                      "**Tuesday:**\n```bash\n\"Reclear\"```\n"
+                                      "**Tuesday:**\n```bash\n\"Savage runs\"```\n"
                                       "**Wednesday:**\nOrganizer: <@429720174913126401>\n```bash\n\"Treasure Maps\" - 16:00 ST```\n"
-                                      "**Tuesday:**\nOrganizer: <@327572759431610368>\n```bash\n\"Legacy Raids\" - 15:00 ST```\n"
+                                      "**Thursday:**\nOrganizer: <@327572759431610368>\n```bash\n\"Legacy Raids\" - 15:00 ST```\n"
                                       "**Friday:**\nOrganizer: <@176301875920896000>\n```bash\n\"Extreme Mount Farming\" - 16:00 ST```\n"
-                                      "**Saturday:**\n```bash\n\"Alliance Raids\"```\n"
-                                      "**Sunday:**\nOrganizer: <@&824121865790160908>\n```bash\n\"Unreal\" - 17:00 ST```\n",
+                                      "**Saturday:**\n```bash\n\"Backup savage runs\"```\n"
+                                      "**Sunday:**\n```bash\n\"Free\"```\n",
                           color=Settings.generalColorEMB)
 
     embed.set_footer(text="If you have any questions regarding a specific event, "

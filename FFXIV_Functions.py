@@ -94,7 +94,10 @@ def MountMinionNum(charID):
 
 
 def TitleNameWorld(soup):
-    charTitle = soup.find(class_="frame__chara__title").text
+    if soup.find(class_="frame__chara__title") is not None:
+        charTitle = soup.find(class_="frame__chara__title").text
+    else:
+        charTitle = ""
     charName = soup.find(class_="frame__chara__name").text
     charWorld = soup.find(class_="frame__chara__world").text
     return charTitle, charName, charWorld
