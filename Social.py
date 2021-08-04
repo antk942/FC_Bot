@@ -12,14 +12,29 @@ IDsDic = Settings.IDsDic
 
 # region ** NOTE: Jsons locations. ** #
 hugLoc = "Jsons_Social/Hug.json"
+hugSmolLoc = "Jsons_Social/HugSmol.json"
+
 kissLoc = "Jsons_Social/Kiss.json"
+
 patLoc = "Jsons_Social/Pat.json"
+patSmolLoc = "Jsons_Social/PatSmol.json"
+
 lickLoc = "Jsons_Social/Lick.json"
+
 pokeLoc = "Jsons_Social/Poke.json"
+pokeSmolLoc = "Jsons_Social/PokeSmol.json"
+
 biteLoc = "Jsons_Social/Bite.json"
+biteSmolLoc = "Jsons_Social/BiteSmol.json"
+
 cryLoc = "Jsons_Social/Cry.json"
+crySmolLoc = "Jsons_Social/CrySmol.json"
+
 clapLoc = "Jsons_Social/Clap.json"
+clapSmolLoc = "Jsons_Social/ClapSmol.json"
+
 angryLoc = "Jsons_Social/Angry.json"
+angrySmolLoc = "Jsons_Social/AngrySmol.json"
 
 
 # endregion
@@ -118,12 +133,18 @@ class Social(commands.Cog):
     async def hug(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
+        if author == IDsDic["Lusa"]:
+            title = None
+            description = author + " hugs " + arg
+            command = "HugSmol"
+            loc = hugSmolLoc
+        else:
+            title = None
+            description = author + " hugs " + arg
+            command = "Hug"
+            loc = hugLoc
 
-        title = None
-        description = author + " hugs " + arg
-        command = "Hug"
-
-        await SendEmbed(ctx, hugLoc, title, description, command)
+        await SendEmbed(ctx, loc, title, description, command)
 
     @commands.command()
     async def kiss(self, ctx, arg=defArg):
@@ -140,12 +161,19 @@ class Social(commands.Cog):
     async def pat(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
+        changedArg = Settings.RemoveExclaFromID(arg)
+        if changedArg == IDsDic["Lusa"]:
+            title = None
+            description = author + " pats " + arg
+            command = "PatSmol"
+            loc = patSmolLoc
+        else:
+            title = None
+            description = author + " pats " + arg
+            command = "Pat"
+            loc = patLoc
 
-        title = None
-        description = author + " pats " + arg
-        command = "Pat"
-
-        await SendEmbed(ctx, patLoc, title, description, command)
+        await SendEmbed(ctx, loc, title, description, command)
 
     @commands.command()
     async def lick(self, ctx, arg=defArg):
@@ -162,56 +190,86 @@ class Social(commands.Cog):
     async def poke(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
+        if author == IDsDic["Lusa"]:
+            title = None
+            description = author + " pokes " + arg
+            command = "PokeSmol"
+            loc = pokeSmolLoc
+        else:
+            title = None
+            description = author + " pokes " + arg
+            command = "Poke"
+            loc = pokeLoc
 
-        title = None
-        description = author + " pokes " + arg
-        command = "Poke"
-
-        await SendEmbed(ctx, pokeLoc, title, description, command)
+        await SendEmbed(ctx, loc, title, description, command)
 
     @commands.command()
     async def bite(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
+        if author == IDsDic["Lusa"]:
+            title = None
+            description = author + " bites " + arg
+            command = "BiteSmol"
+            loc = biteSmolLoc
+        else:
+            title = None
+            description = author + " bites " + arg
+            command = "Bite"
+            loc = biteLoc
 
-        title = None
-        description = author + " bites " + arg
-        command = "Bite"
-
-        await SendEmbed(ctx, biteLoc, title, description, command)
+        await SendEmbed(ctx, loc, title, description, command)
 
     @commands.command()
     async def cry(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
+        if author == IDsDic["Lusa"]:
+            title = None
+            description = author + " cries because of " + arg
+            command = "CrySmol"
+            loc = crySmolLoc
+        else:
+            title = None
+            description = author + " cries because of " + arg
+            command = "Cry"
+            loc = clapLoc
 
-        title = None
-        description = author + " cries because of " + arg
-        command = "Cry"
-
-        await SendEmbed(ctx, cryLoc, title, description, command)
+        await SendEmbed(ctx, loc, title, description, command)
 
     @commands.command()
     async def clap(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
+        if author == IDsDic["Lusa"]:
+            title = None
+            description = author + " claps for " + arg
+            command = "ClapSmol"
+            loc = clapSmolLoc
+        else:
+            title = None
+            description = author + " claps for " + arg
+            command = "Clap"
+            loc = clapLoc
 
-        title = None
-        description = author + " claps for " + arg
-        command = "Clap"
-
-        await SendEmbed(ctx, clapLoc, title, description, command)
+        await SendEmbed(ctx, loc, title, description, command)
 
     @commands.command()
     async def angry(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
+        if author == IDsDic["Lusa"]:
+            title = None
+            description = author + " is angry at " + arg
+            command = "AngrySmol"
+            loc = angrySmolLoc
+        else:
+            title = None
+            description = author + " is angry at " + arg
+            command = "Angry"
+            loc = angryLoc
 
-        title = None
-        description = author + " is angry at " + arg
-        command = "Angry"
-
-        await SendEmbed(ctx, angryLoc, title, description, command)
+        await SendEmbed(ctx, loc, title, description, command)
     # endregion
 
 
