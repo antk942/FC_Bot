@@ -14,7 +14,8 @@ ystholaLinksID = Settings.ystholaLinksID
 
 ffxivLodestoneIDPath = "Jsons_FFXIV/FFXIV_Lodestone_ID.json"
 ffxivLodestoneChannel = 858650958106984478
-ffxivLodestoneID = 1
+ffxivLodestoneID = 872405091540430879
+ffxivCharacterInfoChannel = 858993434642350080
 
 with open("Whoami_FFXIV/Whoami_User_Images.json") as file:
     UsersImgs = json.load(file)
@@ -40,26 +41,39 @@ async def GetUserLodestoneID(ctx, arg1, arg2, arg3, commandName):
     return str(jsonInfo["Results"][0]["ID"])
 
 
-def CheckIfAuthorInfoChanged(author):
-    with open(ffxivLodestoneIDPath) as f:
-        Lodestone_IDDic = json.load(f)
+async def CheckIfAuthorInfoChanged(bot, lodestoneIDsMes, author):
+    listOfLodes = lodestoneIDsMes.content.split(" ")
+    characterInfoMessID = -1
+    for i in range(0, len(listOfLodes)):
+        if listOfLodes[i] == author:
+            characterInfoMessID = listOfLodes[i + 1]
+            break
+    mesOfCharacter = await Settings.GetMessageFromID(bot, ffxivCharacterInfoChannel, characterInfoMessID)
+    listOfCharacterInfo = mesOfCharacter.content.split("\n")
     # Set the soup for every other info.
     requestResult = requests.get(
-        "https://na.finalfantasyxiv.com/lodestone/character/" + Lodestone_IDDic[author][0] + "/")
+        "https://na.finalfantasyxiv.com/lodestone/character/" + listOfCharacterInfo[0] + "/")
     soup = BeautifulSoup(requestResult.content, 'html.parser')
 
     titleNameWorld = TitleNameWorld(soup)
 
     nameSurname = titleNameWorld[1].split(' ')
-    with open(ffxivLodestoneIDPath) as f:
-        Lodestone_IDDic = json.load(f)
-    with open(ffxivLodestoneIDPath, 'w') as file:
-        id = Lodestone_IDDic[author][0]
-        name = nameSurname[0]
-        surname = nameSurname[1]
-        world = titleNameWorld[2].split("\xa0")[0]
-        Lodestone_IDDic.update({author: [id, name, surname, world]})
-        file.write(json.dumps(Lodestone_IDDic, sort_keys=True, indent=4, separators=(',', ': ')))
+
+    id = listOfCharacterInfo[0]
+    name = nameSurname[0]
+    surname = nameSurname[1]
+    world = titleNameWorld[2].split("\xa0")[0]
+    newMessageL = id + "\n" + name + "\n" + surname + "\n" + world
+    await mesOfCharacter.edit(content=newMessageL)
+
+
+async def SaveCharacterMesID(bot, msg, cont):
+    message = await Settings.GetMessageFromID(bot, ffxivLodestoneChannel, ffxivLodestoneID)
+    listMess = message.content.split(" ")
+    listMess.append(str(cont))
+    listMess.append(str(msg.id))
+    newMessageL = " ".join(listMess)
+    await message.edit(content=newMessageL)
 
 
 # ** NOTE: Whoami functions. ** #

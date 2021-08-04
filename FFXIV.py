@@ -9,7 +9,9 @@ import Settings
 import FFXIV_Functions
 
 ffxivLodestoneIDPath = "Jsons_FFXIV/FFXIV_Lodestone_ID.json"
-
+ffxivCharacterInfoChannel = 858993434642350080
+ffxivLodestoneIDsChannel = 858650958106984478
+ffxivLodestoneIDsMessage = 872405091540430879
 
 Settings.init()
 ffxivRegEm = Settings.RegEmojDic
@@ -64,19 +66,18 @@ class FFXIV(commands.Cog):
 
         # Change author's id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
-        with open(ffxivLodestoneIDPath) as f:
-            Lodestone_IDDic = json.load(f)
+        lodestoneIDsMes = await Settings.GetMessageFromID(self.bot, ffxivLodestoneIDsChannel, ffxivLodestoneIDsMessage)
         # If the author is already saved exit the command.
-        if author in Lodestone_IDDic:
+        if author in lodestoneIDsMes.content:
             await ctx.send(ctx.author.mention + " you already have saved your character. " + ffxivRegEm["g_blep"])
             return
 
-        # Save the author's lodestone id.
-        with open(ffxivLodestoneIDPath, 'w') as file:
-            Lodestone_IDDic.update({author: [lodestoneID, arg1, arg2, arg3]})
-            file.write(json.dumps(Lodestone_IDDic, sort_keys=True, indent=4, separators=(',', ': ')))
         await ctx.send(ctx.author.mention + " your character is successfully saved. " + ffxivRegEm["g_love"])
-        await self.bot.get_channel(824436047593209858).send("NEW iam.")
+        msg = await self.bot.get_channel(ffxivCharacterInfoChannel).send(lodestoneID + "\n" +
+                                                                         arg1 + "\n" +
+                                                                         arg2 + "\n" +
+                                                                         arg3)
+        await FFXIV_Functions.SaveCharacterMesID(self.bot, msg, author)
 
     @commands.command()
     async def whoami(self, ctx, arg=None):
@@ -87,15 +88,23 @@ class FFXIV(commands.Cog):
 
         # Change author's id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
-        with open(ffxivLodestoneIDPath) as f:
-            Lodestone_IDDic = json.load(f)
-        # Check if the author has used iam.
-        if author not in Lodestone_IDDic:
-            await ctx.send(ctx.author.mention + " you have to use $iam to use $whoami. " + ffxivRegEm["g_shock"])
+        lodestoneIDsMes = await Settings.GetMessageFromID(self.bot, ffxivLodestoneIDsChannel,
+                                                              ffxivLodestoneIDsMessage)
+        # If the author is already saved exit the command.
+        if author not in lodestoneIDsMes.content:
+            await ctx.send(ctx.author.mention + " you have to use $iam to use $whoami" + ffxivRegEm["g_blep"])
             return
-        FFXIV_Functions.CheckIfAuthorInfoChanged(author)
+        await FFXIV_Functions.CheckIfAuthorInfoChanged(self.bot, lodestoneIDsMes, author)
 
-        charID = Lodestone_IDDic[author][0]
+        listOfLodes = lodestoneIDsMes.content.split(" ")
+        characterInfoMessID = -1
+        for i in range(0, len(listOfLodes)):
+            if listOfLodes[i] == author:
+                characterInfoMessID = listOfLodes[i + 1]
+                break
+        mesOfCharacter = await Settings.GetMessageFromID(self.bot, ffxivCharacterInfoChannel, characterInfoMessID)
+        listOfCharacterInfo = mesOfCharacter.content.split("\n")
+        charID = listOfCharacterInfo[0]
         background = "Whoami_FFXIV/Background_Img_Whoami.png"
         font = "Whoami_FFXIV/ferrum.otf"
         jobs = "Whoami_FFXIV/Jobs.png"

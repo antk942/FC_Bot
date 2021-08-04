@@ -136,6 +136,7 @@ async def sendTempEMB(ctx, arg):
 @bot.command()
 async def sendTempMes(ctx):
     await ctx.message.delete()
+    await ctx.send("Lodestone:")
 
 
 @tasks.loop(seconds=30.0)
@@ -162,9 +163,9 @@ async def on_ready():
     await bot.wait_until_ready()
     ShowGMTPresence.start()
     DailyRefreshes.start()
-    print('Servers connected to:')
+    """print('Servers connected to:')
     for guild in bot.guilds:
-        print(guild.name)
+        print(guild.name)"""
 
 
 # token
