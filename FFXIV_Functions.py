@@ -338,7 +338,7 @@ def WhoamiImg(charID, backgroundImg, jobsImg, font):
 # ** NOTE: Fflogs functions. ** #
 
 
-def GetLinksInfo(user, world):
+def GetLinksInfo(user, world, partition):
     # Get the image from the user's profile for the embed.
     requestResult = requests.get("https://www.fflogs.com/character/EU/" + world + "/" + user)
     soup = BeautifulSoup(requestResult.content, 'html.parser')
@@ -354,7 +354,11 @@ def GetLinksInfo(user, world):
     avatarPic = avatarPic.find_all('img')[0]['src']
 
     # Get all the normal/savage info from the site.
-    link = "https://www.fflogs.com:443/v1/parses/character/" + user + "/" + world + "/EU?metric=rdps&bracket=0&partition=1&timeframe=historical&includeCombatantInfo=false&api_key=703d7039a0d96ac208edc4f82aded59b"
+    if partition == "echo":
+        chekParti = "&partition=13"
+    else:
+        chekParti = ""
+    link = "https://www.fflogs.com:443/v1/parses/character/" + user + "/" + world + "/EU?metric=rdps&bracket=0" + chekParti + "&timeframe=historical&includeCombatantInfo=false&api_key=703d7039a0d96ac208edc4f82aded59b"
 
     urlInfo = requests.get(link)
     jsonInfo = json.loads(urlInfo.content)
@@ -401,9 +405,9 @@ def GetFflogsInfo(info, diff):
     return newDic
 
 
-async def SendLogs(ctx, user, world):
+async def SendLogs(ctx, user, world, partition):
     # Get the results from the fflogs site.
-    returns = GetLinksInfo(user, world)
+    returns = GetLinksInfo(user, world, partition)
     # If the user was not found return an error message.
     if returns is False:
         embed = discord.Embed(title="Y'shtola found an issue.",

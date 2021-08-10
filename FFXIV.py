@@ -121,16 +121,26 @@ class FFXIV(commands.Cog):
             return
         # Change author's id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
-        with open(ffxivLodestoneIDPath) as f:
-            Lodestone_IDDic = json.load(f)
-        if author not in Lodestone_IDDic:
-            await ctx.send(ctx.author.mention + " you have to use $iam to use $mylogs. " + ffxivRegEm["g_shock"])
+        lodestoneIDsMes = await Settings.GetMessageFromID(self.bot, ffxivLodestoneIDsChannel,
+                                                              ffxivLodestoneIDsMessage)
+        # If the author is already saved exit the command.
+        if author not in lodestoneIDsMes.content:
+            await ctx.send(ctx.author.mention + " you have to use $iam to use $mylogs" + ffxivRegEm["g_blep"])
             return
-        FFXIV_Functions.CheckIfAuthorInfoChanged(author)
+        await FFXIV_Functions.CheckIfAuthorInfoChanged(self.bot, lodestoneIDsMes, author)
+
+        listOfLodes = lodestoneIDsMes.content.split(" ")
+        characterInfoMessID = -1
+        for i in range(0, len(listOfLodes)):
+            if listOfLodes[i] == author:
+                characterInfoMessID = listOfLodes[i + 1]
+                break
+        mesOfCharacter = await Settings.GetMessageFromID(self.bot, ffxivCharacterInfoChannel, characterInfoMessID)
+        listOfCharacterInfo = mesOfCharacter.content.split("\n")
 
         # Set the user and the world for the fflogs site
-        user = Lodestone_IDDic[author][1] + " " + Lodestone_IDDic[author][2]
-        world = Lodestone_IDDic[author][3]
+        user = listOfCharacterInfo[1] + " " + listOfCharacterInfo[2]
+        world = listOfCharacterInfo[3]
 
         # Get the embed.
         embed = await FFXIV_Functions.SendLogs(ctx, user, world)
@@ -140,14 +150,17 @@ class FFXIV(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def logs(self, ctx, arg1=None, arg2=None, arg3=None):
+    async def logs(self, ctx, arg1=None, arg2=None, arg3=None, arg4=None):
         await ctx.message.add_reaction("⏳")
         # Check if argument is a valid person, not a role or invalid.
         if arg1 is None or arg2 is None or arg3 is None:
             await ctx.send(embed=Settings.OnErrorMessage("logs", 0))
             return
         # Get the embed.
-        embed = await FFXIV_Functions.SendLogs(ctx, arg1 + " " + arg2, arg3)
+        if arg4 != "echo" or arg4 is not None:
+            await ctx.send(ctx.author.mention + " something went wrong, check for $help logs." + ffxivRegEm["g_blep"])
+            return
+        embed = await FFXIV_Functions.SendLogs(ctx, arg1 + " " + arg2, arg3, arg4)
         # If the function exited return.
         if embed is None:
             return

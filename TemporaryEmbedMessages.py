@@ -7,8 +7,8 @@ async def FCSchedule(ctx):
     embed = discord.Embed(title="SCHEDULE",
                           description="**Monday:**\n```bash\n\"Free\"```\n"
                                       "**Tuesday:**\n```bash\n\"Savage runs\"```\n"
-                                      "**Wednesday:**\nOrganizer: <@429720174913126401>\n```bash\n\"Treasure Maps\" - 16:00 ST```\n"
-                                      "**Thursday:**\nOrganizer: <@327572759431610368>\n```bash\n\"Legacy Raids\" - 15:00 ST```\n"
+                                      "**Wednesday:**\nOrganizer: <@327572759431610368>\n```bash\n\"Legacy Raids\" - 15:00 ST```\n"
+                                      "**Thursday:**\nOrganizer: <@429720174913126401>\n```bash\n\"Treasure Maps\" - 16:00 ST```\n"
                                       "**Friday:**\nOrganizer: <@176301875920896000>\n```bash\n\"Extreme Mount Farming\" - 16:00 ST```\n"
                                       "**Saturday:**\n```bash\n\"Backup savage runs\"```\n"
                                       "**Sunday:**\n```bash\n\"Free\"```\n",
