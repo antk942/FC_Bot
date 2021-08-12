@@ -484,10 +484,10 @@ def GetItemSoup(item):
 def GetCheapestAndWorld(soupUniv):
     soupResPrice = soupUniv.find_all(class_="cheapest_value")
     if not soupResPrice:
-        return
+        return None
     soupResWorld = soupUniv.find_all(class_="cheapest_price_info")
     if not soupResWorld:
-        return
+        return None
 
     dic = {}
     if len(soupResPrice) > 1:
@@ -592,7 +592,12 @@ async def GetMarketBoardEMB(ctx, item):
         url = itemSoupRet[1]
 
     cheapestValueAt = GetCheapestAndWorld(soupUniv)  # description
+    if cheapestValueAt is None:
+        await ctx.send(ctx.author.mention + " the item you requested was not found.")
+        return None
+
     latestUpdate = GetMostRecentUpdate(soupUniv)  # footer
+
     allWorlds = GetPriceInWorlds(soupUniv)  # fields
 
     desc = ""
