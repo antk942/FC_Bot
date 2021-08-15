@@ -117,7 +117,7 @@ class FFXIV(commands.Cog):
     async def mylogs(self, ctx, arg=None):
         await ctx.message.add_reaction("⏳")
         # Get the embed.
-        if arg != "echo" and arg is not None:
+        if arg != "echo" and arg is not None and arg != "5.5" and arg != "5.4":
             await ctx.send(ctx.author.mention + " something went wrong, check for $help mylogs." + ffxivRegEm["g_blep"])
             return
         # Change author's id.
@@ -158,7 +158,7 @@ class FFXIV(commands.Cog):
             await ctx.send(embed=Settings.OnErrorMessage("logs", 0))
             return
         # Get the embed.
-        if arg4 != "echo" and arg4 is not None:
+        if arg4 != "echo" and arg4 is not None and arg4 != "5.5" and arg4 != "5.4":
             await ctx.send(ctx.author.mention + " something went wrong, check for $help logs." + ffxivRegEm["g_blep"])
             return
         embed = await FFXIV_Functions.SendLogs(ctx, arg1 + " " + arg2, arg3, arg4)
