@@ -356,6 +356,10 @@ def GetLinksInfo(user, world, partition):
     # Get all the normal/savage info from the site.
     if partition == "echo":
         chekParti = "&partition=13"
+    elif partition == "5.4":
+        chekParti = "&partition=1"
+    elif partition == "5.5":
+        chekParti = "&partition=7"
     else:
         chekParti = ""
     link = "https://www.fflogs.com:443/v1/parses/character/" + user + "/" + world + "/EU?metric=rdps&bracket=0" + chekParti + "&timeframe=historical&includeCombatantInfo=false&api_key=703d7039a0d96ac208edc4f82aded59b"

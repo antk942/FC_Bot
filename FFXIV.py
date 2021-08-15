@@ -30,10 +30,10 @@ def Commands():
                 "$iam <name + surname + world>"],
         "whoami": ["Check your character details.",
                    "$whoami"],
-        "mylogs": ["Check your logs.",
-                   "$mylogs"],
-        "logs": ["Check someones logs.",
-                 "$logs <name + surname + world>"],
+        "mylogs": ["Check your logs for a different patch or in general.",
+                   "$mylogs <none or 5.5 or 5.4 or echo>"],
+        "logs": ["Check someones logs for a different patch or in general.",
+                 "$logs <name + surname + world> + <none or 5.5 or 5.4 or echo>"],
         "mb": ["Check prices for a specific item.",
                "$mb <item name>"]
     }
