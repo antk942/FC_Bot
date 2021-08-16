@@ -118,6 +118,7 @@ async def SameFieldsEMB(embDictionary):
                   value=embDictionary["fields"][2]["value"],
                   inline=True)
     # End.
+    emb.set_footer(text="Reactions will update every couple of seconds.")
     return emb
 
 
