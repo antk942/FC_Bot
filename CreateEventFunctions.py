@@ -52,7 +52,7 @@ def MakeEmbNoVideo(title, desc):
                         color=Settings.generalColorEMB)
     emb.set_thumbnail(url=Settings.botIcon)
     emb.set_footer(text="Type cancel anytime to end this process.\n"
-                        "2 mins of no response will also result to ending this process.")
+                        "10 mins of no response will also result to ending this process.")
     return emb
 
 
@@ -69,7 +69,7 @@ async def GetMessageResponse(bot, ctx, title, desc):
     newEmb = MakeEmbNoVideo(title, desc)
     await ctx.author.send(embed=newEmb)
 
-    timeout = 120
+    timeout = 600  # seconds
 
     def check(m):
         return m.author == ctx.author and isinstance(m.channel, discord.channel.DMChannel)
