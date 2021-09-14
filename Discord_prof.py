@@ -351,6 +351,8 @@ class Discord_prof(commands.Cog):
 
     @commands.command()
     async def loveldr(self, ctx):
+        await Settings.CommandUnderConstruction(ctx, "loveldr")
+        return
         # Set the title.
         title = "Loves leaderboard " + regEmoj["g_love"]
         lovesMessage = await Settings.GetMessageFromID(self.bot, lovesChannel, lovesID)
@@ -359,6 +361,8 @@ class Discord_prof(commands.Cog):
 
     @commands.command()
     async def chipldr(self, ctx):
+        await Settings.CommandUnderConstruction(ctx, "chipldr")
+        return
         # Set the title.
         title = "Chips leaderboard " + regEmoj["g_cookie"]
         chipsMessage = await Settings.GetMessageFromID(self.bot, chipsChannel, chipsID)
