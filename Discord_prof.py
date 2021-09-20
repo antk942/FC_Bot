@@ -129,21 +129,26 @@ async def IsARGValid(ctx, arg, commandName):
     return True
 
 
-def GetLdr(message, title):
+def GetLdr(message, members, title):
     messageList = message.content.split(" ")
     valuesList = []
     i = 0
     while i < len(messageList):
-        valuesList.append((messageList[i], int(messageList[i + 1])))
+        for u in range(0, len(members)):
+            nameM = Settings.RemoveAllFromID(messageList[i])
+            nameG = str(members[u].id)
+            if nameM == nameG:
+                valuesList.append((messageList[i], int(messageList[i + 1])))
+                break
         i += 2
 
     newValLis = sorted(valuesList, reverse=True, key=lambda tup: tup[1])
 
     newMessageS = ""
-    for i in range(0, len(newValLis)):
-        if i > 4:
+    for k in range(0, len(newValLis)):
+        if k > 4:
             break
-        newMessageS += newValLis[i][0] + " " + str(newValLis[i][1]) + "\n"
+        newMessageS += newValLis[k][0] + " " + str(newValLis[k][1]) + "\n"
     # Make the embed.
     ldrEmbed = discord.Embed(title=title,
                              description=newMessageS,
@@ -203,7 +208,7 @@ class Discord_prof(commands.Cog):
         if arg is not None:
             await ctx.send(embed=Settings.OnErrorMessage('chips', 1))
             return
-        chips = random.randint(15, 25)
+        chips = random.randint(10, 20)
 
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
@@ -351,23 +356,19 @@ class Discord_prof(commands.Cog):
 
     @commands.command()
     async def loveldr(self, ctx):
-        await Settings.CommandUnderConstruction(ctx, "loveldr")
-        return
         # Set the title.
         title = "Loves leaderboard " + regEmoj["g_love"]
         lovesMessage = await Settings.GetMessageFromID(self.bot, lovesChannel, lovesID)
         # Send the message.
-        await ctx.send(embed=GetLdr(lovesMessage, title))
+        await ctx.send(embed=GetLdr(lovesMessage, ctx.guild.members, title))
 
     @commands.command()
     async def chipldr(self, ctx):
-        await Settings.CommandUnderConstruction(ctx, "chipldr")
-        return
         # Set the title.
         title = "Chips leaderboard " + regEmoj["g_cookie"]
         chipsMessage = await Settings.GetMessageFromID(self.bot, chipsChannel, chipsID)
         # Send the message.
-        await ctx.send(embed=GetLdr(chipsMessage, title))
+        await ctx.send(embed=GetLdr(chipsMessage, ctx.guild.members, title))
 
 
 def setup(bot):
