@@ -9,6 +9,7 @@ import Settings
 
 Settings.init()
 IDsDic = Settings.IDsDic
+smolIDs = Settings.smolIDs
 
 # region ** NOTE: Jsons locations. ** #
 hugLoc = "Jsons_Social/Hug.json"
@@ -133,7 +134,7 @@ class Social(commands.Cog):
     async def hug(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
-        if author == IDsDic["Lusa"]:
+        if author in smolIDs:
             title = None
             description = author + " hugs " + arg
             command = "HugSmol"
@@ -162,7 +163,7 @@ class Social(commands.Cog):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
         changedArg = Settings.RemoveExclaFromID(arg)
-        if changedArg == IDsDic["Lusa"]:
+        if changedArg in smolIDs:
             title = None
             description = author + " pats " + arg
             command = "PatSmol"
@@ -190,7 +191,7 @@ class Social(commands.Cog):
     async def poke(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
-        if author == IDsDic["Lusa"]:
+        if author in smolIDs:
             title = None
             description = author + " pokes " + arg
             command = "PokeSmol"
@@ -207,7 +208,7 @@ class Social(commands.Cog):
     async def bite(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
-        if author == IDsDic["Lusa"]:
+        if author in smolIDs:
             title = None
             description = author + " bites " + arg
             command = "BiteSmol"
@@ -224,7 +225,7 @@ class Social(commands.Cog):
     async def cry(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
-        if author == IDsDic["Lusa"]:
+        if author in smolIDs:
             title = None
             description = author + " cries because of " + arg
             command = "CrySmol"
@@ -241,7 +242,7 @@ class Social(commands.Cog):
     async def clap(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
-        if author == IDsDic["Lusa"]:
+        if author in smolIDs:
             title = None
             description = author + " claps for " + arg
             command = "ClapSmol"
@@ -258,7 +259,7 @@ class Social(commands.Cog):
     async def angry(self, ctx, arg=defArg):
         # Change the author id.
         author = Settings.RemoveExclaFromID(ctx.author.mention)
-        if author == IDsDic["Lusa"]:
+        if author in smolIDs:
             title = None
             description = author + " is angry at " + arg
             command = "AngrySmol"

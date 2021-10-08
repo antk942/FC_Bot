@@ -43,6 +43,10 @@ def init():
     with open("IDs.json") as f:
         IDsDic = json.load(f)
 
+    global smolIDs
+    with open("SmolIDs.json") as f:
+        smolIDs = json.load(f)
+
     global admins
     admins = [IDsDic["Kon"], IDsDic["Shiroi"], IDsDic["Lili"], IDsDic["Mid"]]
 
