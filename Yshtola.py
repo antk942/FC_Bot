@@ -86,7 +86,7 @@ async def on_message(message):
 async def on_member_join(member):
     if member.guild.id == 824112000342032385:
         try:
-            role = discord.utils.get(member.guild.roles, name="The New Guys")
+            role = discord.utils.get(member.guild.roles, name="Wisp")
             await member.add_roles(role)
         except:
             await bot.get_channel(824436047593209858).send("Could not give role for some reason, investigate")
