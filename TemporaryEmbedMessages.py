@@ -184,7 +184,7 @@ async def SavageRaids(ctx):
 
 
 async def SendDMOnServerJoin(member):
-    emb = discord.Embed(title="Welcome to The Other Guys.",
+    emb = discord.Embed(title="Welcome to Phantoms of Glory.",
                         description="Hello, before you start your adventure you should check out some things.",
                         color=Settings.generalColorEMB)
     emb.add_field(name="Rules.", value="Make sure you read carefully our rules.\n"
