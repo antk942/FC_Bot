@@ -5,18 +5,18 @@ import Settings
 
 async def FCSchedule(ctx):
     embed = discord.Embed(title="SCHEDULE",
-                          description="**Monday:**\n```bash\n\"Free\"```\n"
-                                      "**Tuesday:**\n```bash\n\"Savage runs\"```\n"
-                                      "**Wednesday:**\nOrganizer: <@327572759431610368>\n```bash\n\"Legacy Raids\" - 15:00 ST```\n"
-                                      "**Thursday:**\nOrganizer: <@429720174913126401>\n```bash\n\"Treasure Maps\" - 16:00 ST```\n"
-                                      "**Friday:**\nOrganizer: <@176301875920896000>\n```bash\n\"Extreme Mount Farming\" - 16:00 ST```\n"
-                                      "**Saturday:**\n```bash\n\"Backup savage runs\"```\n"
-                                      "**Sunday:**\n```bash\n\"Free\"```\n",
+                          description="**Monday:**\n```bash\n\"Free or Savage runs\"```\n"
+                                      "**Tuesday:**\n```bash\n\"Free\"```\n"
+                                      "**Wednesday:**\nOrganizer: <@176301875920896000>\n```bash\n\"Treasure Maps\" - 16:00 or 18:00 ST```\n"
+                                      "**Thursday:**\n```bash\n\"Free\"```\n"
+                                      "**Friday:**\nOrganizer: <@327572759431610368>\n```bash\n\"Legacy raids\" - 16:00 or 18:00 ST```\n"
+                                      "**Saturday:**\nOrganizer: Flexible\n```bash\n\"Extreme mount farms\"```\n"
+                                      "**Sunday:**\n```bash\n\"Free or Savage runs\"```\n",
                           color=Settings.generalColorEMB)
 
     embed.set_footer(text="If you have any questions regarding a specific event, "
                           "please contact the person/people leading that event, "
-                          "failing that, feel free to also contact our majestic leader.",
+                          "failing that, feel free to also contact our leader.",
                      icon_url=Settings.botIcon)
 
     embed.set_thumbnail(url=Settings.botIcon)

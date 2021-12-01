@@ -156,6 +156,11 @@ async def DailyRefreshes():
             await Settings.PurgeMessages(bot, marketBoardChannel, 100)
 
 
+"""@bot.command()
+async def leave(ctx):
+    await bot.get_guild(int(858097035902976030)).leave()
+    await ctx.send(f"I left: {858097035902976030}")"""
+
 @bot.event
 async def on_ready():
     print('bot ready')

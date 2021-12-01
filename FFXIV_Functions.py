@@ -515,7 +515,12 @@ def CheckLessTime(timeList, mostTime, timeFormat):  # Most time should be 59 for
             whichWorld = i
         i += 2
 
-    return "Last time updated " + timeList[whichWorld] + " at " + timeList[whichWorld - 1]
+    worlds = ["Lich", "Odin", "Phoenix", "Shiva", "Zodiark", "Twintania"]
+
+    if timeList[whichWorld - 1] in worlds:
+        return "Last time updated " + timeList[whichWorld] + " at " + timeList[whichWorld - 1]
+    else:
+        return "Last time updated " + timeList[whichWorld - 1] + " at " + timeList[whichWorld]
 
 
 def GetMostRecentUpdate(soupUniv):
