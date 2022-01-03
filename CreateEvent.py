@@ -85,7 +85,7 @@ class CreateEvent(commands.Cog):
             dateNow = time.strftime("%e-%m-%Y", time.gmtime())
             dateSplit = dateNow.split("-")
             dateNFixed = datetime.datetime(int(dateSplit[2]), int(dateSplit[1]), int(dateSplit[0]))
-            dateGot = await CreateEventFunctions.GetCorrectTime(self.bot, ctx, "date.\nExample: 31-12-2021", dateNFixed,
+            dateGot = await CreateEventFunctions.GetCorrectTime(self.bot, ctx, "date.\nExample: 31-12-2022", dateNFixed,
                                                                 "date", False, "-", 3)
             if dateGot is None:
                 return

@@ -23,7 +23,7 @@ def isDatePos(dateGot, currT):
     except ValueError:
         return False
 
-    maxDate = datetime.datetime(year=2022, month=1, day=1)
+    maxDate = datetime.datetime(year=2030, month=1, day=1)
     dateGotObj = datetime.datetime(datG[2], datG[1], datG[0])
     if dateGotObj < currT or dateGotObj > maxDate:
         return False
