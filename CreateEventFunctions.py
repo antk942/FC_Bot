@@ -122,7 +122,8 @@ async def SaveEventID(bot, msg, ctx):
     newMessageL = " ".join(listMess)
     await ctx.author.send(content=f"Your event id is: {str(msg.id)}. "
                                   f"\nMake sure if you want to delete the event, do "
-                                  f"\n'$deleteevent {str(msg.id)}' on the channel where the event is.")
+                                  f"\n$deleteevent {str(msg.id)} "
+                                  f"\non the channel where the event is.")
     await message.edit(content=newMessageL)
 
 
