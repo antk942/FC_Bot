@@ -81,7 +81,7 @@ class CreateEvent(commands.Cog):
             if description is None:
                 return
 
-            # Date.
+            # Date. dateGot = 31-12-2022
             dateNow = time.strftime("%e-%m-%Y", time.gmtime())
             dateSplit = dateNow.split("-")
             dateNFixed = datetime.datetime(int(dateSplit[2]), int(dateSplit[1]), int(dateSplit[0]))
@@ -90,7 +90,7 @@ class CreateEvent(commands.Cog):
             if dateGot is None:
                 return
 
-            # Time.
+            # Time. timeGot = 23:59
             timeNow = time.strftime("%H:%M", time.gmtime())
             sameD = False
             if dateGot == dateNow:
@@ -129,12 +129,13 @@ class CreateEvent(commands.Cog):
                                      embed=CreateEventFunctions.SendCreateeventEmbed(ctx, title, description, dateGot,
                                                                                      timeGot))
         else:
-            msg = await ctx.send(embed=CreateEventFunctions.SendCreateeventEmbed(ctx, "test", "test", "test",
-                                                                                 "test"))
+            msg = await ctx.send(embed=CreateEventFunctions.SendCreateeventEmbed(ctx, "test", "test", "11-11-2029",
+                                                                                 "23:59"))
 
         await msg.add_reaction("<:Tank:867150256435888149>")
         await msg.add_reaction("<:Healer:867150256043065355>")
         await msg.add_reaction("<:Dps:867150256176889856>")
+        await msg.add_reaction("<:Allrounder:932650649278111754>")
         await msg.add_reaction("<:Late:866367570046484483>")
         await CreateEventFunctions.SaveEventID(self.bot, msg, ctx)
 

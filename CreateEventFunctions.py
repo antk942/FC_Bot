@@ -128,8 +128,22 @@ async def SaveEventID(bot, msg, ctx):
 
 
 def SendCreateeventEmbed(ctx, title, description, dateGot, timeGot):
+    # YYYY + MM + DD + "T" + hh + mm
+    dateA = dateGot.split("-")
+    timeA = timeGot.split(":")
+    hh = '{:0>2}'.format(timeA[0])  # hour = 15
+    mm = '{:0>2}'.format(timeA[1])
+    DD = '{:0>2}'.format(dateA[0])
+    MM = '{:0>2}'.format(dateA[1])
+    YYYY = '{:0>4}'.format(dateA[2])
+    countdown = "https://www.timeanddate.com/countdown/gaming?iso=" \
+                + YYYY + MM + DD + "T" + hh + mm + "00&p0=%0A&msg=" \
+                + title.strip().replace(" ", "+") + "&font=cursive"
+    dateGot = DD + "-" + MM + "-" + YYYY
+    timeGot = hh + ":" + mm
     newEMB = discord.Embed(title=title,
-                           description=description,
+                           description=description +
+                           "\n[Countdown till event.](" + countdown + ")",
                            color=Settings.generalColorEMB)
     newEMB.set_thumbnail(url=Settings.botIcon)
     newEMB.set_footer(text="Reactions will update every couple of seconds.")
@@ -139,5 +153,7 @@ def SendCreateeventEmbed(ctx, title, description, dateGot, timeGot):
     newEMB.add_field(name="Tank:", value="\u200b", inline=True)
     newEMB.add_field(name="Healer:", value="\u200b", inline=True)
     newEMB.add_field(name="Dps:", value="\u200b", inline=True)
+    newEMB.add_field(name="All rounder:", value="\u200b", inline=True)
     newEMB.add_field(name="Late:", value="\u200b", inline=True)
+
     return newEMB

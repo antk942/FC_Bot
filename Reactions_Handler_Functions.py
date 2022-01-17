@@ -8,6 +8,7 @@ Settings.init()
 tank = "<:Tank:867150256435888149>"
 healer = "<:Healer:867150256043065355>"
 dps = "<:Dps:867150256176889856>"
+allrounder = "<:Allrounder:932650649278111754>"
 lateEmoj = "<:Late:866367570046484483>"
 
 
@@ -18,6 +19,8 @@ def ChooseKey(emoji):
         return "tank"
     elif emoji == "Healer":
         return "healer"
+    elif emoji == "Allrounder":
+        return "allrounder"
     elif emoji == "Late":
         return "late"
 

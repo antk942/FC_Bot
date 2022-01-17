@@ -18,9 +18,10 @@ messageOfEvents = 866245165231505428
 tank = "<:Tank:867150256435888149>"
 healer = "<:Healer:867150256043065355>"
 dps = "<:Dps:867150256176889856>"
+allrounder = "<:Allrounder:932650649278111754>"
 lateEmoj = "<:Late:866367570046484483>"
 
-emojis = [dps, tank, healer, lateEmoj]
+emojis = [dps, tank, healer, allrounder, lateEmoj]
 
 
 class Reactions_Handler(commands.Cog):
@@ -52,14 +53,16 @@ class Reactions_Handler(commands.Cog):
         tankLis = diction["fields"][3]["value"].split("\n")
         healerLis = diction["fields"][4]["value"].split("\n")
         dpsLis = diction["fields"][5]["value"].split("\n")
-        lateLis = diction["fields"][6]["value"].split("\n")
+        allrounderLis = diction["fields"][6]["value"].split("\n")
+        lateLis = diction["fields"][7]["value"].split("\n")
 
-        listsList = [tankLis, healerLis, dpsLis, lateLis]
+        listsList = [tankLis, healerLis, dpsLis, allrounderLis, lateLis]
         emojisAndListsOfEvents = {
             "tank": (tank, listsList[0]),
             "healer": (healer, listsList[1]),
             "dps": (dps, listsList[2]),
-            "late": (lateEmoj, listsList[3])
+            "allrounder": (allrounder, listsList[3]),
+            "late": (lateEmoj, listsList[4])
         }
         mainKey = Reactions_Handler_Functions.ChooseKey(payload.emoji.name)
         await self.ChangeFieldValues(msg, member, emojisAndListsOfEvents, mainKey)
@@ -72,14 +75,16 @@ class Reactions_Handler(commands.Cog):
         tankLis = diction["fields"][3]["value"].split("\n")
         healerLis = diction["fields"][4]["value"].split("\n")
         dpsLis = diction["fields"][5]["value"].split("\n")
-        late = diction["fields"][6]["value"].split("\n")
+        allrounderLis = diction["fields"][6]["value"].split("\n")
+        late = diction["fields"][7]["value"].split("\n")
 
-        listsList = [tankLis, healerLis, dpsLis, late]
+        listsList = [tankLis, healerLis, dpsLis, allrounderLis, late]
         emojisAndListsOfEvents = {
             "tank": (tank, listsList[0]),
             "healer": (healer, listsList[1]),
             "dps": (dps, listsList[2]),
-            "late": (lateEmoj, listsList[3])
+            "allrounder": (allrounder, listsList[3]),
+            "late": (lateEmoj, listsList[4])
         }
         ret = Reactions_Handler_Functions.RemoveUserFromList(member, emojisAndListsOfEvents, payload.emoji)
         if ret == "All":
