@@ -139,8 +139,11 @@ def SendCreateeventEmbed(ctx, title, description, dateGot, timeGot):
     countdown = "https://www.timeanddate.com/countdown/gaming?iso=" \
                 + YYYY + MM + DD + "T" + hh + mm + "00&p0=%0A&msg=" \
                 + title.strip().replace(" ", "+") + "&font=cursive"
-    dateGot = DD + "-" + MM + "-" + YYYY
-    timeGot = hh + ":" + mm
+    dateTimeGot = DD + "-" + MM + "-" + YYYY + " " + hh + ":" + mm
+    epochTime = int(time.mktime(time.strptime(dateTimeGot, "%d-%m-%Y %H:%M")))
+    '''date_time = '19.11.2022 01:00:00'
+    pattern = '%d.%m.%Y %H:%M:%S'
+    epoch = int(time.mktime(time.strptime(date_time, pattern)))'''
     newEMB = discord.Embed(title=title,
                            description=description +
                            "\n[Countdown till event.](" + countdown + ")",
@@ -148,8 +151,8 @@ def SendCreateeventEmbed(ctx, title, description, dateGot, timeGot):
     newEMB.set_thumbnail(url=Settings.botIcon)
     newEMB.set_footer(text="Reactions will update every couple of seconds.")
     newEMB.add_field(name="Organizer:", value=ctx.author.mention, inline=True)
-    newEMB.add_field(name="Date", value=dateGot, inline=True)
-    newEMB.add_field(name="Time", value=timeGot + " ST.", inline=True)
+    newEMB.add_field(name="Date:", value="<t:" + str(epochTime) + ":F>", inline=True)
+    newEMB.add_field(name="Time:", value="<t:" + str(epochTime) + ":R>", inline=True)
     newEMB.add_field(name="Tank:", value="\u200b", inline=True)
     newEMB.add_field(name="Healer:", value="\u200b", inline=True)
     newEMB.add_field(name="Dps:", value="\u200b", inline=True)

@@ -129,7 +129,7 @@ class CreateEvent(commands.Cog):
                                      embed=CreateEventFunctions.SendCreateeventEmbed(ctx, title, description, dateGot,
                                                                                      timeGot))
         else:
-            msg = await ctx.send(embed=CreateEventFunctions.SendCreateeventEmbed(ctx, "test", "test", "11-11-2029",
+            msg = await ctx.send(embed=CreateEventFunctions.SendCreateeventEmbed(ctx, "test", "test", "11-11-2022",
                                                                                  "23:59"))
 
         await msg.add_reaction("<:Tank:867150256435888149>")
