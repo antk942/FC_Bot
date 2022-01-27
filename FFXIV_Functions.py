@@ -373,24 +373,25 @@ def GetLinksInfo(user, world, partition):
 
 def GetFflogsInfo(info, diff):
     # Set the dictionary to change the names in the end.
+    lowestFightID = 78
     fightNames = {
-        "73": "Cloud of darkness",
-        "74": "Shadowkeeper",
-        "75": "Fatebreaker",
-        "76": "Eden's Promise",
-        "77": "Oracle of Darkness"
+        "78": "Erichthonios",
+        "79": "Hippokampos",
+        "80": "Phoinix",
+        "81": "Hesperos",
+        "82": "Hesperos II"
     }
     # Set the empty dic for the information.
     fight = {}
     # Fill the dictionary with empty values.
     for i in range(0, 5):
-        fight[str(73 + i)] = [-1, 0, "", 0]  # 1st parse, 2nd damage, 3rd job, 4th kills.
+        fight[str(lowestFightID + i)] = [-1, 0, "", 0]  # 1st parse, 2nd damage, 3rd job, 4th kills.
 
     for i in range(0, len(info)):
         # Check if the info's diff is the same as asked.
         if info[i]["difficulty"] == diff:
             for j in range(0, 5):
-                fightID = 73 + j
+                fightID = lowestFightID + j
                 # Check which fight it got from the site info.
                 if info[i]["encounterID"] == fightID:
                     # If found increase the kills.
@@ -440,7 +441,7 @@ async def SendLogs(ctx, user, world, partition):
     link = "https://www.fflogs.com/character/EU/" + world + "/" + user.replace(" ", "%20")
 
     embed = discord.Embed(title=user,
-                          description="**Eden's promise " + areSavageLogs + "**",
+                          description="**Asphodelos " + areSavageLogs + "**",
                           colour=Settings.generalColorEMB,
                           url=link
                           )
