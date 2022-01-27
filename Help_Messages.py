@@ -99,11 +99,12 @@ class Help_Messages(commands.Cog):
 
     @commands.command()
     async def help(self, ctx, *arg):
+        """
+            "Company projects": [Company_Projects.Commands()[0],
+                                 Company_Projects.Commands()[1]],"""
         categories = {
             "Profile": [Discord_prof.Commands()[0],
                         Discord_prof.Commands()[1]],
-            "Company projects": [Company_Projects.Commands()[0],
-                                 Company_Projects.Commands()[1]],
             "FFXIV": [FFXIV.Commands()[0],
                       FFXIV.Commands()[1]],
             "Social": [Social.Commands()[0],

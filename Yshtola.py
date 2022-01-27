@@ -96,7 +96,7 @@ async def on_member_join(member):
             await bot.get_channel(824436047593209858).send("Could not send message to the new guy, investigate")
 
 
-@bot.command()
+"""@bot.command()
 async def megalazer(ctx):
     sendMes = ""
     for i in range(1, 10):
@@ -104,7 +104,7 @@ async def megalazer(ctx):
         if i % 3 == 0:
             sendMes += "\n"
     await ctx.message.delete()
-    await ctx.send(sendMes)
+    await ctx.send(sendMes)"""
 
 
 @bot.command()
@@ -160,6 +160,7 @@ async def DailyRefreshes():
 async def leave(ctx):
     await bot.get_guild(int(858097035902976030)).leave()
     await ctx.send(f"I left: {858097035902976030}")"""
+
 
 @bot.event
 async def on_ready():
