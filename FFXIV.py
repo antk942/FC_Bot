@@ -31,9 +31,9 @@ def Commands():
         "whoami": ["Check your character details.",
                    "$whoami"],
         "mylogs": ["Check your logs for a different patch or in general.",
-                   "$mylogs <none or 5.5 or 5.4 or echo>"],
+                   "$mylogs <none>"],
         "logs": ["Check someones logs for a different patch or in general.",
-                 "$logs <name + surname + world> + <none or 5.5 or 5.4 or echo>"],
+                 "$logs <name + surname + world>"],  # + <none or 5.5 or 5.4 or echo>
         "mb": ["Check prices for a specific item.",
                "$mb <item name>"]
     }
@@ -117,7 +117,7 @@ class FFXIV(commands.Cog):
     async def mylogs(self, ctx, arg=None):
         await ctx.message.add_reaction("⏳")
         # Get the embed.
-        if arg != "echo" and arg is not None and arg != "5.5" and arg != "5.4":
+        if arg is not None:  # arg != "echo" and arg is not None and arg != "5.5" and arg != "5.4":
             await ctx.send(ctx.author.mention + " something went wrong, check for $help mylogs." + ffxivRegEm["g_blep"])
             return
         # Change author's id.
@@ -154,13 +154,13 @@ class FFXIV(commands.Cog):
     async def logs(self, ctx, arg1=None, arg2=None, arg3=None, arg4=None):
         await ctx.message.add_reaction("⏳")
         # Check if argument is a valid person, not a role or invalid.
-        if arg1 is None or arg2 is None or arg3 is None:
+        if arg1 is None or arg2 is None or arg3 is None or arg4 is not None:
             await ctx.send(embed=Settings.OnErrorMessage("logs", 0))
             return
         # Get the embed.
-        if arg4 != "echo" and arg4 is not None and arg4 != "5.5" and arg4 != "5.4":
+        """if arg4 != "echo" and arg4 is not None and arg4 != "5.5" and arg4 != "5.4":
             await ctx.send(ctx.author.mention + " something went wrong, check for $help logs." + ffxivRegEm["g_blep"])
-            return
+            return"""
         embed = await FFXIV_Functions.SendLogs(ctx, arg1 + " " + arg2, arg3, arg4)
         # If the function exited return.
         if embed is None:
