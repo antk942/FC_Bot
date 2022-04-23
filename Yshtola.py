@@ -137,9 +137,9 @@ async def sendTempEMB(ctx, arg):
 async def sendTempMes(ctx):
     print("copium")
     trials = {
-        "First extreme": "<:Titania:863391802765606922>",
-        "Second extreme": "<:Innocence:863391802765606932>",
-        "Third extreme": "<:Hades:863391802109984789>"
+        "First extreme": "🦖",
+        "Second extreme": "👩‍🦳",
+        "Third extreme": "🐦"
 
     }
     emojis = [
