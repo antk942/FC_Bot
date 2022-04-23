@@ -135,6 +135,7 @@ async def sendTempEMB(ctx, arg):
 
 @bot.command()
 async def sendTempMes(ctx):
+    print("copium")
     trials = {
         "First extreme": "<:Titania:863391802765606922>",
         "Second extreme": "<:Innocence:863391802765606932>",
@@ -142,9 +143,9 @@ async def sendTempMes(ctx):
 
     }
     emojis = [
-        "<:one:967492035722502164>",
-        "<:two:967492035722502164>",
-        "<:three:967492035722502164>"
+        "🦖",
+        "👩‍🦳",
+        "🐦"
     ]
     embed = discord.Embed(title="Endwalker.",
                           description="***Lynxes***",
