@@ -135,8 +135,27 @@ async def sendTempEMB(ctx, arg):
 
 @bot.command()
 async def sendTempMes(ctx):
-    await ctx.message.delete()
-    await ctx.send("Lodestone:")
+    trials = {
+        "First extreme": "<:Titania:863391802765606922>",
+        "Second extreme": "<:Innocence:863391802765606932>",
+        "Third extreme": "<:Hades:863391802109984789>"
+
+    }
+    emojis = [
+        "<:one:967492035722502164>",
+        "<:two:967492035722502164>",
+        "<:three:967492035722502164>"
+    ]
+    embed = discord.Embed(title="Endwalker.",
+                          description="***Lynxes***",
+                          color=Settings.generalColorEMB)
+    for key in trials:
+        embed.add_field(name=key, value=trials[key], inline=False)
+
+    embed.set_thumbnail(url=Settings.EWIcon)
+    message = await ctx.send(embed=embed)
+    for item in emojis:
+        await message.add_reaction(item)
 
 
 @tasks.loop(seconds=30.0)

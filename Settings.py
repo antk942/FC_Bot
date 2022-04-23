@@ -27,6 +27,8 @@ def init():
     SBIcon = "https://cdn.discordapp.com/attachments/863357000598814720/863360386597388298/Stormblood.jpg"
     global ShBIcon
     ShBIcon = "https://cdn.discordapp.com/attachments/863357000598814720/863360422199296030/Shadowbringers.jpg"
+    global EWIcon
+    EWIcon = "https://cdn.discordapp.com/attachments/863357000598814720/967491126456098916/FFXIV_Endwalker.jpg"
 
     global generalColorEMB
     generalColorEMB = 0xb266ff
