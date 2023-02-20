@@ -53,20 +53,6 @@ animEm = Settings.AnimatedEmojDic
 
 IDsDic = Settings.IDsDic
 
-# region Heroku magic
-print("ctypes - Find opus:")
-a = ctypes.util.find_library('opus')
-print(a)
-
-print("Discord - Load Opus:")
-b = discord.opus.load_opus(a)
-print(b)
-
-print("Discord - Is loaded:")
-c = discord.opus.is_loaded()
-print(c)
-# endregion
-
 
 @bot.event
 async def on_message(message):
@@ -96,17 +82,6 @@ async def on_member_join(member):
             await bot.get_channel(824436047593209858).send("Could not send message to the new guy, investigate")
 
 
-"""@bot.command()
-async def megalazer(ctx):
-    sendMes = ""
-    for i in range(1, 10):
-        sendMes += animEm["MegaLazer" + str(i)]
-        if i % 3 == 0:
-            sendMes += "\n"
-    await ctx.message.delete()
-    await ctx.send(sendMes)"""
-
-
 @bot.command()
 async def sendTempEMB(ctx, arg):
     #await ctx.message.delete()
@@ -133,32 +108,6 @@ async def sendTempEMB(ctx, arg):
         await TemporaryEmbedMessages.SendDMOnServerJoin(member)
 
 
-@bot.command()
-async def sendTempMes(ctx):
-    print("copium")
-    trials = {
-        "First extreme": "🦖",
-        "Second extreme": "👩‍🦳",
-        "Third extreme": "🐦"
-
-    }
-    emojis = [
-        "🦖",
-        "👩‍🦳",
-        "🐦"
-    ]
-    embed = discord.Embed(title="Endwalker.",
-                          description="***Lynxes***",
-                          color=Settings.generalColorEMB)
-    for key in trials:
-        embed.add_field(name=key, value=trials[key], inline=False)
-
-    embed.set_thumbnail(url=Settings.EWIcon)
-    message = await ctx.send(embed=embed)
-    for item in emojis:
-        await message.add_reaction(item)
-
-
 @tasks.loop(seconds=30.0)
 async def ShowGMTPresence():
     now = "ST is: " + time.strftime("%H:%M", time.gmtime())
@@ -176,12 +125,6 @@ async def DailyRefreshes():
             await Settings.PurgeMessages(bot, marketBoardChannel, 100)
 
 
-"""@bot.command()
-async def leave(ctx):
-    await bot.get_guild(int(858097035902976030)).leave()
-    await ctx.send(f"I left: {858097035902976030}")"""
-
-
 @bot.event
 async def on_ready():
     print('bot ready')
@@ -189,11 +132,8 @@ async def on_ready():
     await bot.wait_until_ready()
     ShowGMTPresence.start()
     DailyRefreshes.start()
-    """print('Servers connected to:')
-    for guild in bot.guilds:
-        print(guild.name)"""
 
 
 # token
-bot.run('ODI0NDMyOTk1ODUwNzgwNzEy.YFvTDw.jDa5Bmcicrs2fx8QooLKSRuTqbc')
+bot.run('Bot_Token')
 # end of token
